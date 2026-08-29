@@ -20,74 +20,100 @@ export default function Topbar() {
   return (
     <div className="bg-[#ac3e25] text-white">
       <Container>
-        <div className="flex flex-col items-center gap-2 py-2 font-poppins lg:flex-row lg:justify-between lg:gap-4">
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-medium sm:gap-x-5 xl:flex-nowrap">
-            <span className="hidden items-center gap-2 capitalize xl:flex">
+        <div className="flex min-h-10 items-center justify-between gap-4 py-2 font-poppins">
+          {/* Left side */}
+          <div className="flex min-w-0 items-center gap-4 text-xs font-medium">
+            {/* Address */}
+            <div className="flex min-w-0 items-center gap-2">
               <MapPin size={12} className="shrink-0" />
-              <span>
+
+              {/* Mobile */}
+              <span className="truncate sm:hidden">34 Bangla Motor, Dhaka</span>
+
+              {/* Tablet */}
+              <span className="hidden truncate sm:block xl:hidden">
+                34 Bangla Motor, Dhaka
+              </span>
+
+              {/* Desktop */}
+              <span className="hidden truncate xl:block">
                 Sandhani Life Tower (2nd Floor), 34 Bangla Motor, Dhaka - 1000.
               </span>
-            </span>
+            </div>
 
-            <span className="flex items-center gap-2 capitalize xl:hidden">
-              <MapPin size={12} className="shrink-0" />
-              <span>34 Bangla Motor, Dhaka</span>
-            </span>
-
+            {/* Email */}
             <a
               href="mailto:purabiinsurance@gmail.com"
-              className="flex items-center gap-2 lowercase hover:opacity-80"
+              className="hidden shrink-0 items-center gap-2 hover:opacity-80 md:flex"
             >
-              <Mail size={12} className="shrink-0" />
-              <span className="hidden sm:inline">
-                purabiinsurance@gmail.com
-              </span>
-              <span className="sm:hidden">Email</span>
+              <Mail size={12} />
+              <span>purabiinsurance@gmail.com</span>
             </a>
 
+            {/* Phone */}
             <a
               href="tel:+8801714044146"
-              className="flex items-center gap-2 hover:opacity-80"
+              className="hidden shrink-0 items-center gap-2 lg:flex hover:opacity-80"
             >
-              <Phone size={12} className="shrink-0" />
-              <span className="hidden sm:inline">+880 1714-044146</span>
-              <span className="sm:hidden">Call</span>
+              <Phone size={12} />
+              <span>+880 1714-044146</span>
             </a>
           </div>
 
-          {/* Right side - Portals & Social */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-            {/* Portal Links - Better spacing */}
-            <div className="flex items-center">
+          {/* Right side */}
+          <div className="flex shrink-0 items-center gap-3">
+            {/* Portals */}
+            <div className="hidden items-center sm:flex">
               <a
                 href="/client-portal"
-                className="px-2 py-1 text-[10px] uppercase hover:opacity-80 sm:px-3 sm:text-xs lg:px-[15px] lg:py-[5px] lg:text-sm"
+                className="px-2 py-1 text-xs uppercase hover:opacity-80"
               >
                 Client Portal
               </a>
-              <span className="hidden h-4 w-px bg-white/30 sm:block" />
+
+              <span className="h-4 w-px bg-white/30" />
+
               <a
                 href="/agent-portal"
-                className="px-2 py-1 text-[10px] uppercase hover:opacity-80 sm:px-3 sm:text-xs lg:px-[15px] lg:py-[5px] lg:text-sm"
+                className="px-2 py-1 text-xs uppercase hover:opacity-80"
               >
                 Agent Portal
               </a>
             </div>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1.5">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex size-6 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/30 sm:size-7 lg:size-7.5"
+                  className="flex size-6 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/30"
                 >
-                  <Icon size={10} className="sm:size-3 lg:size-[14px]" />
+                  <Icon size={12} />
                 </a>
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Mobile contact row */}
+        <div className="flex items-center justify-center gap-4 pb-2 text-[11px] md:hidden">
+          <a
+            href="mailto:purabiinsurance@gmail.com"
+            className="flex items-center gap-1.5 hover:opacity-80"
+          >
+            <Mail size={11} />
+            Email
+          </a>
+
+          <a
+            href="tel:+8801714044146"
+            className="flex items-center gap-1.5 hover:opacity-80"
+          >
+            <Phone size={11} />
+            Call
+          </a>
         </div>
       </Container>
     </div>
