@@ -5,12 +5,11 @@ import {
   layout,
 } from "@react-router/dev/routes";
 
-import MainLayout from "../layouts/MainLayout";
-import Home from "./routes/home";
-
 export default [
   layout("../layouts/MainLayout.tsx", [
     index("./routes/home.tsx"),
     route("about", "./routes/about.tsx"),
+    route("blogs", "./routes/blogs.tsx"),
+    route("contact", "./routes/contact.tsx"),
   ]),
 ] satisfies RouteConfig;

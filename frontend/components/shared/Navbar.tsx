@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router";
 import { ChevronDown, ArrowUpRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 import Container from "./Container";
+import Button from "../ui/Button";
 import logo from "../../app/assets/brand-logo.jpg";
 
 const navLinks = [
@@ -20,13 +21,13 @@ export default function Navbar() {
     <div className="border-b border-[#ab3d24]/50 bg-white">
       <Container>
         {/* Main Navbar - flex container without justify-between */}
-        <div className="flex items-center py-2 sm:py-3 md:py-[14px]">
+        <div className="flex items-center py-2 sm:py-3 md:py-3.5">
           {/* Logo - matches Figma design height */}
           <Link to="/" className="shrink-0">
             <img
               src={logo}
               alt="Purabi General Insurance Co. Ltd."
-              className="h-5 w-auto sm:h-6 md:h-6 lg:h-6"
+              className="h-5 w-auto sm:h-6 md:h-8 lg:h-8"
             />
           </Link>
 
@@ -42,7 +43,7 @@ export default function Navbar() {
                   to={link.to}
                   className={({ isActive }) =>
                     [
-                      "flex items-center gap-1 px-1.5 py-1.5 text-xs capitalize whitespace-nowrap transition-colors hover:text-[#ac3e25] sm:px-2 lg:gap-[6px] lg:px-3 lg:py-2 lg:text-sm xl:gap-[10px] xl:px-[20px] xl:py-[14px] xl:text-lg",
+                      "flex items-center gap-1 px-1.5 py-1.5 text-xs capitalize whitespace-nowrap transition-colors hover:text-[#ac3e25] sm:px-2 lg:gap-1.5 lg:px-3 lg:py-2 lg:text-sm xl:gap-2.5 xl:px-5 xl:py-3.5 xl:text-lg font-poppins",
                       isActive
                         ? "border-b-2 border-[#9f0101] text-[#9f0101]"
                         : "text-black",
@@ -51,25 +52,22 @@ export default function Navbar() {
                 >
                   {link.label}
                   {link.hasDropdown && (
-                    <ChevronDown
-                      size={14}
-                      className="lg:size-[18px] xl:size-[24px]"
-                    />
+                    <ChevronDown size={14} className="lg:size-4.5 xl:size-6" />
                   )}
                 </NavLink>
               ))}
             </nav>
 
-            <Link
-              to="/get-a-quote"
-              className="flex items-center gap-1.5 rounded-[5px] border border-black/20 bg-[#ac3e25] px-2.5 py-1.5 text-xs capitalize text-white transition-colors hover:bg-[#9a3620] sm:px-3 lg:gap-2 lg:px-4 lg:py-2 lg:text-sm xl:gap-[15px] xl:px-[35px] xl:py-[14px] xl:text-lg"
+            {/* Reusable Button Component */}
+            <Button
+              href="/get-a-quote"
+              variant="primary"
+              size="md"
+              icon={<ArrowUpRight size={18} className="xl:size-6" />}
+              iconPosition="right"
             >
               Get A Quote
-              <ArrowUpRight
-                size={14}
-                className="lg:size-[18px] xl:size-[25px]"
-              />
-            </Link>
+            </Button>
           </div>
 
           {/* Mobile Menu Button - visible below md */}
@@ -79,9 +77,9 @@ export default function Navbar() {
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
-              <X size={20} className="text-black sm:size-[22px]" />
+              <X size={20} className="text-black sm:size-5.5" />
             ) : (
-              <Menu size={20} className="text-black sm:size-[22px]" />
+              <Menu size={20} className="text-black sm:size-5.5" />
             )}
           </button>
         </div>
@@ -97,7 +95,7 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
                     [
-                      "flex items-center justify-between rounded-lg px-4 py-2.5 text-sm capitalize transition-colors hover:bg-gray-50 sm:py-3 sm:text-base",
+                      "flex items-center justify-between rounded-lg px-4 py-2.5 text-sm capitalize transition-colors hover:bg-gray-50 sm:py-3 sm:text-base font-poppins",
                       isActive
                         ? "bg-[#ac3e25]/10 text-[#9f0101]"
                         : "text-black",
@@ -106,19 +104,23 @@ export default function Navbar() {
                 >
                   {link.label}
                   {link.hasDropdown && (
-                    <ChevronDown size={18} className="sm:size-[20px]" />
+                    <ChevronDown size={18} className="sm:size-5" />
                   )}
                 </NavLink>
               ))}
 
-              <Link
-                to="/get-a-quote"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-2 flex items-center justify-center gap-2 rounded-[5px] bg-[#ac3e25] px-6 py-2.5 text-sm capitalize text-white transition-colors hover:bg-[#9a3620] sm:py-3 sm:text-base"
+              {/* Reusable Button in Mobile Menu */}
+              <Button
+                href="/get-a-quote"
+                variant="primary"
+                size="md"
+                fullWidth
+                icon={<ArrowUpRight size={18} className="sm:size-5" />}
+                iconPosition="right"
+                className="mt-2"
               >
                 Get A Quote
-                <ArrowUpRight size={18} className="sm:size-[20px]" />
-              </Link>
+              </Button>
             </nav>
           </div>
         )}
