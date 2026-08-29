@@ -20,7 +20,7 @@ export default function Topbar() {
   return (
     <div className="bg-[#ac3e25] text-white">
       <Container>
-        <div className="flex flex-col items-center gap-2 py-2 lg:flex-row lg:justify-between lg:gap-4">
+        <div className="flex flex-col items-center gap-2 py-2 font-poppins lg:flex-row lg:justify-between lg:gap-4">
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-medium sm:gap-x-5 xl:flex-nowrap">
             <span className="hidden items-center gap-2 capitalize xl:flex">
               <MapPin size={12} className="shrink-0" />
@@ -81,7 +81,7 @@ export default function Topbar() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex size-6 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 sm:size-7 lg:size-7.5"
+                  className="flex size-6 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/30 sm:size-7 lg:size-7.5"
                 >
                   <Icon size={10} className="sm:size-3 lg:size-[14px]" />
                 </a>
