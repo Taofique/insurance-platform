@@ -1,0 +1,23 @@
+[
+  {
+    "date": "21 June 2025",
+    "title": "শোক সংবাদ",
+    "description": "Stay informed about the latest news and important updates from Purabi General Insurance.",
+    "image": "blog-1.png",
+    "href": "/blogs"
+  },
+  {
+    "date": "21 June 2025",
+    "title": "Insurance Awareness Program",
+    "description": "Discover how we are helping individuals and businesses make confident insurance decisions.",
+    "image": "blog-2.png",
+    "href": "/blogs"
+  },
+  {
+    "date": "28 March 2022",
+    "title": "Notice (28 March, 2022)",
+    "description": "Read our latest notices, updates, and announcements for valued customers and partners.",
+    "image": "blog-3.png",
+    "href": "/blogs"
+  }
+]
