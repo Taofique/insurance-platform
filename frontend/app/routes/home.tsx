@@ -7,6 +7,7 @@ import ClaimCoverage from "../../components/sections/ClaimCoverage";
 import Partners from "../../components/sections/Partners";
 import WorkingProcess from "../../components/sections/Working-Process";
 import NewsEvents from "../../components/sections/NewsEvent";
+import MobileApp from "../../components/sections/MobileApp";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -25,6 +26,7 @@ export default function Home() {
       <Partners />
       <WorkingProcess />
       <NewsEvents />
+      <MobileApp />
     </>
   );
 }
