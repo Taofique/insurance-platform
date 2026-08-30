@@ -5,6 +5,7 @@ import QuickQuoteBar from "../../components/sections/QuickQuoteBar";
 import Categories from "../../components/sections/Categories";
 import ClaimCoverage from "../../components/sections/ClaimCoverage";
 import Partners from "../../components/sections/Partners";
+import WorkingProcess from "../../components/sections/Working-Process";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -21,6 +22,7 @@ export default function Home() {
       <Categories />
       <ClaimCoverage />
       <Partners />
+      <WorkingProcess />
     </>
   );
 }
