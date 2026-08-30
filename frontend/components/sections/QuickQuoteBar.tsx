@@ -166,7 +166,7 @@ export default function QuickQuoteBar() {
           </div>
 
           <Button
-            type="submit"
+            href="/life-insurance"
             variant="primary"
             size="lg"
             icon={<ArrowUpRight size={20} />}

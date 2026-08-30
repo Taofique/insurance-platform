@@ -1,3 +1,10 @@
+import LifeInsurance from "../../components/life-insurance-sections/LifeInsuranceBanner";
+
 export default function HealthInsurance() {
-  return <div>health-insurance</div>;
+  return (
+    <>
+      <LifeInsurance />
+      <h1>Life Insurance</h1>
+    </>
+  );
 }
