@@ -2,6 +2,7 @@ import type { Route } from "./+types/home";
 
 import Hero from "../../components/sections/Hero";
 import QuickQuoteBar from "../../components/sections/QuickQuoteBar";
+import Categories from "../../components/sections/Categories";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,6 +16,7 @@ export default function Home() {
     <>
       <Hero />
       <QuickQuoteBar />
+      <Categories />
     </>
   );
 }

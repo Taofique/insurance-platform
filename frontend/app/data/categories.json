@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Fire Insurance",
+    "description": "With our Fire insurance policies, you can choose from various coverage options that protect your property, equipment,",
+    "image": "flame.png"
+  },
+  {
+    "title": "Health Insurance",
+    "description": "With our Health insurance policies, you can choose from various coverage options that protect your property, equipment,",
+    "image": "healthcare.png"
+  },
+  {
+    "title": "Motor Insurance",
+    "description": "Motor Car insurance provides comprehensive protection for your vehicles, covering accidents, theft.",
+    "image": "protection.png"
+  },
+  {
+    "title": "Marine Insurance",
+    "description": "We offer comprehensive and flexible coverage for your vessels, protecting against physical damage,",
+    "image": "logistics-delivery.png"
+  },
+  {
+    "title": "Travel Insurance",
+    "description": "Our Travel Insurance (Overseas Mediclaim Insurance) ensures comprehensive coverage for medical emergencies.",
+    "image": "travel-insurance.png"
+  },
+  {
+    "title": "Engineering Insurance",
+    "description": "Engineering insurance refers to the insurance that provides",
+    "image": "engineering.png"
+  },
+  {
+    "title": "Aviation Insurance",
+    "description": "Aviation insurance is insurance coverage geared specifically to the operation",
+    "image": "aviation-insurance.png"
+  },
+  {
+    "title": "Miscellaneous Insurance",
+    "description": "Accidents shatter people emotionally, physically and financially,",
+    "image": "belongings.png"
+  },
+  {
+    "title": "Nibedita Insurance",
+    "description": "A comprehensive insurance scheme for women is a one stop service.",
+    "image": "nibedita.png"
+  }
+]
