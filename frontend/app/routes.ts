@@ -11,6 +11,6 @@ export default [
     route("about", "./routes/about.tsx"),
     route("blogs", "./routes/blogs.tsx"),
     route("contact", "./routes/contact.tsx"),
-    route("life-insurance", "./routes/healthInsurance.tsx"),
+    route("health-insurance", "./routes/healthInsurance.tsx"),
   ]),
 ] satisfies RouteConfig;
