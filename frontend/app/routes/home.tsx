@@ -4,6 +4,7 @@ import Hero from "../../components/sections/Hero";
 import QuickQuoteBar from "../../components/sections/QuickQuoteBar";
 import Categories from "../../components/sections/Categories";
 import ClaimCoverage from "../../components/sections/ClaimCoverage";
+import Partners from "../../components/sections/Partners";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,6 +20,7 @@ export default function Home() {
       <QuickQuoteBar />
       <Categories />
       <ClaimCoverage />
+      <Partners />
     </>
   );
 }

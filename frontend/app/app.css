@@ -15,3 +15,17 @@ body {
     color-scheme: dark;
   }
 }
+
+@keyframes partner-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.partner-marquee {
+  animation: partner-marquee 22s linear infinite;
+}
