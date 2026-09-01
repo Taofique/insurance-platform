@@ -52,13 +52,17 @@ export default function Navbar() {
     setOpenDropdown(null);
   };
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="sticky top-0 z-50 border-b border-[#ab3d24]/50 bg-white">
       <Container>
         {/* Main Navbar - flex container without justify-between */}
         <div className="flex items-center py-2 sm:py-3 md:py-3.5">
           {/* Logo - matches Figma design height */}
-          <Link to="/" className="shrink-0">
+          <Link to="/" className="shrink-0" onClick={closeMobileMenu}>
             <img
               src={logo}
               alt="Purabi General Insurance Co. Ltd."
@@ -211,7 +215,7 @@ export default function Navbar() {
                                 to={item.to}
                                 onClick={() => {
                                   closeDropdowns();
-                                  setIsMobileMenuOpen(false);
+                                  closeMobileMenu();
                                 }}
                                 className="block rounded-lg px-4 py-2 text-sm text-gray-600 transition-colors hover:bg-[#f7ece9] hover:text-[#ac3e25] font-poppins"
                               >
@@ -228,7 +232,7 @@ export default function Navbar() {
                     <NavLink
                       key={link.label}
                       to={link.to}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={closeMobileMenu}
                       className={({ isActive }) =>
                         [
                           "flex items-center justify-between rounded-lg px-4 py-2.5 text-sm capitalize transition-colors hover:bg-gray-50 sm:py-3 sm:text-base font-poppins",
@@ -250,7 +254,7 @@ export default function Navbar() {
                 <div className="flex flex-col gap-0.5">
                   <Link
                     to="/login"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                     className="rounded-lg px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 font-poppins text-[#ac3e25] flex items-center gap-2"
                   >
                     <span className="text-base">🔐</span>
@@ -258,7 +262,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     to="/login"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                     className="rounded-lg px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 font-poppins text-[#ac3e25] flex items-center gap-2"
                   >
                     <span className="text-base">🔐</span>
@@ -268,7 +272,7 @@ export default function Navbar() {
                   {/* Sign Up Link */}
                   <Link
                     to="/signup"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                     className="rounded-lg px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 font-poppins text-[#ac3e25] flex items-center gap-2"
                   >
                     <span className="text-base">📝</span>
@@ -276,19 +280,15 @@ export default function Navbar() {
                   </Link>
                 </div>
 
-                {/* Reusable Button in Mobile Menu - Fixed to close menu */}
-                <Button
-                  href="/get-a-quote"
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                  icon={<ArrowUpRight size={18} className="sm:size-5" />}
-                  iconPosition="right"
-                  className="mt-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                {/* Get A Quote - Using Link directly instead of Button to ensure onClick works */}
+                <Link
+                  to="/get-a-quote"
+                  onClick={closeMobileMenu}
+                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg bg-[#ac3e25] px-6 py-3 font-poppins font-medium text-white transition-colors hover:bg-[#8a3220]"
                 >
                   Get A Quote
-                </Button>
+                  <ArrowUpRight size={18} className="sm:size-5" />
+                </Link>
               </nav>
             </Container>
           </div>
