@@ -1,4 +1,5 @@
 import { MapPin, Mail, Phone } from "lucide-react";
+import { Link } from "react-router";
 import {
   FaFacebookF,
   FaTwitter,
@@ -64,21 +65,21 @@ export default function Topbar() {
           <div className="flex shrink-0 items-center gap-3">
             {/* Portals */}
             <div className="hidden items-center sm:flex">
-              <a
-                href="/client-portal"
+              <Link
+                to="/login"
                 className="px-2 py-1 text-xs uppercase hover:opacity-80"
               >
                 Client Portal
-              </a>
+              </Link>
 
               <span className="h-4 w-px bg-white/30" />
 
-              <a
-                href="/agent-portal"
+              <Link
+                to="/login"
                 className="px-2 py-1 text-xs uppercase hover:opacity-80"
               >
                 Agent Portal
-              </a>
+              </Link>
             </div>
 
             {/* Social Icons */}

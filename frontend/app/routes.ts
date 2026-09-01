@@ -13,4 +13,6 @@ export default [
     route("contact", "./routes/contact.tsx"),
     route("health-insurance", "./routes/healthInsurance.tsx"),
   ]),
+  route("login", "./routes/login.tsx"),
+  route("signup", "./routes/signup.tsx"),
 ] satisfies RouteConfig;
