@@ -17,4 +17,12 @@ export default [
   ]),
   route("login", "./routes/login.tsx"),
   route("signup", "./routes/signup.tsx"),
+
+  layout("../layouts/CustomerPortalLayout.tsx", [
+    route("customer/dashboard", "./routes/customer/dashboard.tsx"),
+  ]),
+
+  layout("../layouts/AgentPortalLayout.tsx", [
+    route("agent/dashboard", "./routes/agent/dashboard.tsx"),
+  ]),
 ] satisfies RouteConfig;
