@@ -10,6 +10,7 @@ export default [
     index("./routes/home.tsx"),
     route("about", "./routes/about.tsx"),
     route("blogs", "./routes/blogs.tsx"),
+    route("blogs/:id", "./routes/blogDetail.tsx"),
     route("contact", "./routes/contact.tsx"),
     route("health-insurance", "./routes/healthInsurance.tsx"),
   ]),

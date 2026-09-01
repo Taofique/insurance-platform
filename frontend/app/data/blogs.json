@@ -1,0 +1,76 @@
+{
+  "blogs": [
+    {
+      "id": 1,
+      "title": "Understanding Health Insurance: A Complete Guide",
+      "excerpt": "Learn everything you need to know about health insurance plans, coverage options, and how to choose the right policy for your family.",
+      "content": "<p>Health insurance is one of the most important investments you can make for yourself and your family. It provides financial protection against unexpected medical expenses and ensures access to quality healthcare when you need it most.</p><h2>What is Health Insurance?</h2><p>Health insurance is a contract between you and an insurance company that covers your medical expenses in exchange for regular premium payments. It helps cover costs for doctor visits, hospital stays, medications, and other healthcare services.</p><h2>Types of Health Insurance Plans</h2><ul><li><strong>Individual Health Insurance:</strong> Covers a single person.</li><li><strong>Family Health Insurance:</strong> Covers the entire family under one policy.</li><li><strong>Group Health Insurance:</strong> Offered by employers to their employees.</li><li><strong>Critical Illness Insurance:</strong> Provides a lump sum payment upon diagnosis of specified illnesses.</li></ul><h2>How to Choose the Right Plan</h2><p>When selecting a health insurance plan, consider the following factors:</p><ul><li>Coverage amount and scope</li><li>Premium costs and affordability</li><li>Network of hospitals and doctors</li><li>Claim settlement ratio of the insurer</li><li>Additional benefits and riders</li></ul>",
+      "category": "Health Insurance",
+      "author": "Dr. Rahman",
+      "date": "September 1, 2026",
+      "readTime": "5 min read",
+      "image": "/app/assets/auth/var5.jpg",
+      "tags": ["Health", "Insurance", "Guide"]
+    },
+    {
+      "id": 2,
+      "title": "Life Insurance Planning for Young Professionals",
+      "excerpt": "Why starting your life insurance journey early can save you money and provide better coverage for your future.",
+      "content": "<p>Starting your life insurance journey early is one of the smartest financial decisions you can make. Not only does it provide peace of mind, but it also comes with significant financial benefits.</p><h2>Why Start Early?</h2><p>The earlier you purchase life insurance, the lower your premiums will be. Insurance companies consider age as a primary factor when determining rates, so locking in a policy while you're young can save you thousands over the lifetime of the policy.</p><h2>Types of Life Insurance for Young Professionals</h2><ul><li><strong>Term Life Insurance:</strong> Affordable coverage for a specific period</li><li><strong>Whole Life Insurance:</strong> Lifetime coverage with cash value accumulation</li><li><strong>Universal Life Insurance:</strong> Flexible premiums and death benefits</li></ul>",
+      "category": "Life Insurance",
+      "author": "Sarah Ahmed",
+      "date": "August 28, 2026",
+      "readTime": "4 min read",
+      "image": "/app/assets/auth/var2.png",
+      "tags": ["Life", "Planning", "Young Professionals"]
+    },
+    {
+      "id": 3,
+      "title": "Property Insurance: Protecting Your Most Valuable Assets",
+      "excerpt": "From natural disasters to theft, discover how property insurance can safeguard your home and business investments.",
+      "content": "<p>Your property is one of your most valuable assets, and protecting it should be a top priority. Property insurance provides a safety net against unexpected events that could otherwise lead to significant financial losses.</p><h2>What Does Property Insurance Cover?</h2><ul><li><strong>Building Structure:</strong> Coverage for the physical structure of your property</li><li><strong>Contents:</strong> Protection for your personal belongings and valuables</li><li><strong>Liability:</strong> Coverage if someone is injured on your property</li><li><strong>Additional Living Expenses:</strong> Coverage for temporary living costs if your home is uninhabitable</li></ul>",
+      "category": "Property Insurance",
+      "author": "Michael Khan",
+      "date": "August 25, 2026",
+      "readTime": "6 min read",
+      "image": "/app/assets/auth/var6.png",
+      "tags": ["Property", "Assets", "Protection"]
+    },
+    {
+      "id": 4,
+      "title": "Travel Insurance: What You Need to Know Before Your Next Trip",
+      "excerpt": "Don't let unexpected events ruin your vacation. Learn about travel insurance coverage and why it's essential for every traveler.",
+      "content": "<p>Travel insurance is often overlooked, but it's an essential consideration for any trip. It provides protection against a wide range of travel-related risks and can save you from financial losses and hassles while traveling.</p><h2>Key Coverage Areas</h2><ul><li><strong>Trip Cancellation:</strong> Reimbursement if you need to cancel your trip</li><li><strong>Medical Emergencies:</strong> Coverage for unexpected illnesses or injuries abroad</li><li><strong>Lost Baggage:</strong> Compensation for lost, stolen, or delayed luggage</li><li><strong>Flight Delays:</strong> Coverage for additional expenses due to delays</li></ul>",
+      "category": "Travel Insurance",
+      "author": "Lisa Chen",
+      "date": "August 22, 2026",
+      "readTime": "3 min read",
+      "image": "/app/assets/auth/var4.png",
+      "tags": ["Travel", "Vacation", "Safety"]
+    },
+    {
+      "id": 5,
+      "title": "Business Insurance: Protecting Your Enterprise",
+      "excerpt": "From liability to property damage, understand the types of insurance your business needs to thrive and grow.",
+      "content": "<p>Running a business comes with inherent risks, and having the right insurance coverage is crucial for protecting your enterprise. Business insurance provides financial protection against unexpected events that could threaten your operations.</p><h2>Essential Business Insurance Types</h2><ul><li><strong>General Liability Insurance:</strong> Protection against third-party claims</li><li><strong>Property Insurance:</strong> Coverage for business property and equipment</li><li><strong>Workers' Compensation:</strong> Coverage for employee injuries and illnesses</li><li><strong>Professional Liability:</strong> Protection against professional negligence claims</li></ul>",
+      "category": "Business Insurance",
+      "author": "David Hossain",
+      "date": "August 20, 2026",
+      "readTime": "7 min read",
+      "image": "/app/assets/auth/var1.png",
+      "tags": ["Business", "Enterprise", "Liability"]
+    },
+    {
+      "id": 6,
+      "title": "Auto Insurance: Finding the Right Coverage",
+      "excerpt": "Navigate the complexities of auto insurance with our comprehensive guide to coverage options, premiums, and claims.",
+      "content": "<p>Auto insurance is not just a legal requirement in most places; it's also a financial protection that every driver needs. Understanding the different types of coverage available can help you make an informed decision.</p><h2>Types of Auto Insurance Coverage</h2><ul><li><strong>Liability Coverage:</strong> Covers damages to others in an accident you cause</li><li><strong>Collision Coverage:</strong> Covers damage to your vehicle in an accident</li><li><strong>Comprehensive Coverage:</strong> Covers non-collision damage like theft, vandalism, or weather</li><li><strong>Personal Injury Protection:</strong> Covers medical expenses for you and your passengers</li></ul>",
+      "category": "Auto Insurance",
+      "author": "Rokeya Sultana",
+      "date": "August 18, 2026",
+      "readTime": "4 min read",
+      "image": "/app/assets/auth/var3.png",
+      "tags": ["Auto", "Vehicle", "Coverage"]
+    }
+  ]
+}

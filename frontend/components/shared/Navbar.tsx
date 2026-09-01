@@ -10,7 +10,7 @@ const navLinks = [
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/insurance", hasDropdown: true },
   { label: "Claims", to: "/claims", hasDropdown: true },
-  { label: "Blogs", to: "/blog" },
+  { label: "Blogs", to: "/blogs" },
   { label: "Contact Us", to: "/contact" },
 ];
 
