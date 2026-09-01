@@ -3,6 +3,23 @@ import { Search } from "lucide-react";
 import Container from "../../components/shared/Container";
 import NewsEventCard from "../../components/ui/NewsEventCard";
 import blogData from "../data/blogs.json";
+// Import images directly
+import var1 from "../assets/auth/var1.png";
+import var2 from "../assets/auth/var2.png";
+import var3 from "../assets/auth/var3.png";
+import var4 from "../assets/auth/var4.png";
+import var5 from "../assets/auth/var5.jpg";
+import var6 from "../assets/auth/var6.png";
+
+// Map image IDs to imported images
+const imageMap: Record<number, string> = {
+  1: var1,
+  2: var2,
+  3: var3,
+  4: var4,
+  5: var5,
+  6: var6,
+};
 
 const categories = [
   "All",
@@ -81,7 +98,7 @@ export default function Blogs() {
           {filteredPosts.map((post) => (
             <NewsEventCard
               key={post.id}
-              image={post.image}
+              image={imageMap[post.id] || var1} // Fallback to var1 if not found
               title={post.title}
               date={post.date}
               description={post.excerpt}
