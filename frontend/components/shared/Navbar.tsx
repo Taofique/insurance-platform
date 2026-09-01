@@ -276,7 +276,7 @@ export default function Navbar() {
                   </Link>
                 </div>
 
-                {/* Reusable Button in Mobile Menu */}
+                {/* Reusable Button in Mobile Menu - Fixed to close menu */}
                 <Button
                   href="/get-a-quote"
                   variant="primary"
@@ -285,6 +285,7 @@ export default function Navbar() {
                   icon={<ArrowUpRight size={18} className="sm:size-5" />}
                   iconPosition="right"
                   className="mt-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get A Quote
                 </Button>
