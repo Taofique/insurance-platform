@@ -1,7 +1,11 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { registerUser, loginUser } from "../services/auth.service.js";
 
-export const register = async (req: Request, res: Response): Promise<void> => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const user = await registerUser(req.body);
 
@@ -10,18 +14,16 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       message: "User registered successfully",
       user,
     });
-  } catch (error: any) {
-    const message =
-      error instanceof Error ? error.message : "Registration failed";
-
-    res.status(400).json({
-      success: false,
-      message,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const result = await loginUser(req.body);
 
@@ -31,11 +33,6 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       ...result,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Login failed";
-
-    res.status(401).json({
-      success: false,
-      message,
-    });
+    next(error);
   }
 };

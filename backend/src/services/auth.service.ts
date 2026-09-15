@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import AppError from "../middleware/AppError.js";
 
 interface RegisterData {
   name: string;
@@ -19,7 +20,7 @@ export const registerUser = async (data: RegisterData) => {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    throw new Error("User already exists");
+    throw new AppError("User already exists", 409);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,17 +46,17 @@ export const loginUser = async (data: LoginData) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new Error("Invalid email or password");
+    throw new AppError("Invalid email or password", 401);
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
-    throw new Error("Invalid email or password");
+    throw new AppError("Invalid email or password", 401);
   }
 
   if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined");
+    throw new AppError("JWT_SECRET is not defined", 500);
   }
 
   const token = jwt.sign(
