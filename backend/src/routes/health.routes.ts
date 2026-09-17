@@ -23,32 +23,4 @@ router.get("/admin", authMiddleware, authorize("admin"), (req, res) => {
   });
 });
 
-router.get(
-  "/claims",
-  authMiddleware,
-  authorize("claims_officer"),
-  (req, res) => {
-    res.status(200).json({
-      success: true,
-      message: "Welcome claims officer",
-      userId: req.userId,
-      role: req.userRole,
-    });
-  },
-);
-
-router.get(
-  "/management",
-  authMiddleware,
-  authorize("admin", "agent"),
-  (req, res) => {
-    res.status(200).json({
-      success: true,
-      message: "Management access granted",
-      userId: req.userId,
-      role: req.userRole,
-    });
-  },
-);
-
 export default router;

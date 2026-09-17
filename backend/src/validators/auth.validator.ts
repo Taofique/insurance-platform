@@ -43,3 +43,32 @@ export const validateRegister = (req: Request): ValidationError[] => {
 
   return errors;
 };
+
+// Login Validation
+
+export const validateLogin = (req: Request): ValidationError[] => {
+  const errors: ValidationError[] = [];
+
+  const { email, password } = req.body;
+
+  if (!email || typeof email !== "string") {
+    errors.push({
+      field: "email",
+      message: "Email is required",
+    });
+  } else if (!email.includes("@")) {
+    errors.push({
+      field: "email",
+      message: "Please provide a valid email",
+    });
+  }
+
+  if (!password || typeof password !== "string") {
+    errors.push({
+      field: "password",
+      message: "Password is required",
+    });
+  }
+
+  return errors;
+};
