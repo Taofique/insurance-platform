@@ -1,13 +1,16 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
+import type { HydratedDocument } from "mongoose";
 
 export type UserRole = "admin" | "agent" | "claims_officer" | "client";
 
-export interface IUser extends Document {
+export interface IUser {
   name: string;
   email: string;
   password: string;
   role: UserRole;
 }
+
+export type UserDocument = HydratedDocument<IUser>;
 
 const userSchema = new Schema<IUser>(
   {
