@@ -4,6 +4,8 @@ import {
   create,
   getAll,
   getById,
+  update,
+  remove,
 } from "../controllers/insuranceType.controller.js";
 
 import authMiddleware from "../middleware/auth.middleware.js";
@@ -18,6 +20,7 @@ router.get("/", authMiddleware, getAll);
 
 router.get("/:id", authMiddleware, getById);
 
+// create
 router.post(
   "/",
   authMiddleware,
@@ -25,5 +28,11 @@ router.post(
   validate(validateCreateInsuranceType),
   create,
 );
+
+// update
+router.patch("/:id", authMiddleware, authorize("admin"), update);
+
+//delete
+router.delete("/:id", authMiddleware, authorize("admin"), remove);
 
 export default router;

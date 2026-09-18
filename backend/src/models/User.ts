@@ -8,6 +8,7 @@ export interface IUser {
   email: string;
   password: string;
   role: UserRole;
+  isActive: boolean;
 }
 
 export type UserDocument = HydratedDocument<IUser>;
@@ -35,6 +36,11 @@ const userSchema = new Schema<IUser>(
       type: String,
       enum: ["admin", "agent", "claims_officer", "client"],
       default: "client",
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
       required: true,
     },
   },
