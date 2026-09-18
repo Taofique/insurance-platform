@@ -3,13 +3,18 @@ import {
   getUserByIdController,
   getUsersController,
   createUserController,
+  updateUserController,
+  deleteUserController,
 } from "../controllers/user.controller.js";
 
 import authMiddleware from "../middleware/auth.middleware.js";
 import authorize from "../middleware/authorize.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
 
-import { validateCreateUser } from "../validators/user.validator.js";
+import {
+  validateCreateUser,
+  validateUpdateUser,
+} from "../validators/user.validator.js";
 
 const router = Router();
 
@@ -22,5 +27,15 @@ router.post(
   validate(validateCreateUser),
   createUserController,
 );
+
+router.patch(
+  "/:id",
+  authMiddleware,
+  authorize("admin"),
+  validate(validateUpdateUser),
+  updateUserController,
+);
+
+router.delete("/:id", authMiddleware, authorize("admin"), deleteUserController);
 
 export default router;

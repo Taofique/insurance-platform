@@ -62,3 +62,66 @@ export const validateCreateUser = (req: Request): ValidationError[] => {
 
   return errors;
 };
+
+export const validateUpdateUser = (req: Request): ValidationError[] => {
+  const errors: ValidationError[] = [];
+
+  const { name, email, password, role, isActive } = req.body;
+
+  if (name !== undefined) {
+    if (typeof name !== "string" || !name.trim()) {
+      errors.push({
+        field: "name",
+        message: "Name cannot be empty",
+      });
+    }
+  }
+
+  if (email !== undefined) {
+    if (typeof email !== "string" || !email.trim()) {
+      errors.push({
+        field: "email",
+        message: "Email cannot be empty",
+      });
+    } else if (!email.includes("@")) {
+      errors.push({
+        field: "email",
+        message: "Please provide a valid email",
+      });
+    }
+  }
+
+  if (password !== undefined) {
+    if (typeof password !== "string") {
+      errors.push({
+        field: "password",
+        message: "Password must be a string",
+      });
+    } else if (password.length < 6) {
+      errors.push({
+        field: "password",
+        message: "Password must be at least 6 characters",
+      });
+    }
+  }
+
+  if (role !== undefined) {
+    if (typeof role !== "string" || !allowedRoles.includes(role as UserRole)) {
+      errors.push({
+        field: "role",
+        message: "Invalid role",
+      });
+    }
+  }
+
+  if (isActive !== undefined) {
+    if (typeof isActive !== "boolean") {
+      errors.push({
+        field: "isActive",
+        message: "isActive must be a boolean",
+      });
+    }
+  }
+
+  return errors;
+};

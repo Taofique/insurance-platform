@@ -1,6 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 
-import { getUsers, getUserById, createUser } from "../services/user.service.js";
+import {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "../services/user.service.js";
 
 export const getUsersController = async (
   _req: Request,
@@ -55,6 +61,61 @@ export const createUserController = async (
 
     res.status(201).json({
       success: true,
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid user ID",
+      });
+      return;
+    }
+
+    const user = await updateUser(id, req.body);
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    if (!id || Array.isArray(id)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid user ID",
+      });
+      return;
+    }
+
+    const user = await deleteUser(id);
+
+    res.status(200).json({
+      success: true,
+      message: "User deactivated successfully",
       data: user,
     });
   } catch (error) {
