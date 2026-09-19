@@ -4,6 +4,7 @@ import healthRoutes from "./routes/health.routes.js";
 import InsuranceTypeRoutes from "./routes/insuranceType.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import insurancePolicyRoutes from "./routes/insurancePolicy.routes.js";
+import claimRoutes from "./routes/claim.routes.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
 const app = express();
@@ -16,6 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/insurance-type", InsuranceTypeRoutes);
 app.use("/api/insurance-policies", insurancePolicyRoutes);
+app.use("/api/claims", claimRoutes);
 app.use("/api/users", userRoutes);
 
 app.use(errorMiddleware);
