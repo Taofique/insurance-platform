@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 import InsurancePolicy from "../models/InsurancePolicy.js";
+import type { PolicyStatus } from "../models/InsurancePolicy.js";
 import User from "../models/User.js";
 import InsuranceType from "../models/InsuranceType.js";
 import AppError from "../middleware/AppError.js";
@@ -13,7 +14,6 @@ interface CreateInsurancePolicyData {
   endDate: string;
   premium: number;
   coverageAmount: number;
-  status?: "pending" | "active" | "expired" | "cancelled";
 }
 
 interface UpdateInsurancePolicyData {
@@ -24,9 +24,15 @@ interface UpdateInsurancePolicyData {
   endDate?: string;
   premium?: number;
   coverageAmount?: number;
-  status?: "pending" | "active" | "expired" | "cancelled";
-  isActive?: boolean;
+  status?: PolicyStatus;
 }
+
+const allowedStatusTransitions: Record<PolicyStatus, PolicyStatus[]> = {
+  pending: ["active"],
+  active: ["expired", "cancelled"],
+  expired: [],
+  cancelled: [],
+};
 
 const generatePolicyNumber = (): string => {
   const timestamp = Date.now();
@@ -118,7 +124,6 @@ export const createInsurancePolicy = async (
     endDate,
     premium,
     coverageAmount,
-    status = "pending",
   } = data;
 
   await validateClient(client);
@@ -143,7 +148,8 @@ export const createInsurancePolicy = async (
     endDate: parsedEndDate,
     premium,
     coverageAmount,
-    status,
+    status: "pending",
+    isActive: true,
   });
 
   return getInsurancePolicyById(policy._id.toString());
@@ -200,11 +206,26 @@ export const updateInsurancePolicy = async (
   }
 
   if (data.status !== undefined) {
-    policy.status = data.status;
-  }
+    const currentStatus = policy.status;
 
-  if (data.isActive !== undefined) {
-    policy.isActive = data.isActive;
+    const allowedStatuses = allowedStatusTransitions[currentStatus];
+
+    if (!allowedStatuses.includes(data.status)) {
+      throw new AppError(
+        `Invalid policy status transition: ${currentStatus} → ${data.status}`,
+        400,
+      );
+    }
+
+    policy.status = data.status;
+
+    if (data.status === "active") {
+      policy.isActive = true;
+    }
+
+    if (data.status === "expired" || data.status === "cancelled") {
+      policy.isActive = false;
+    }
   }
 
   await policy.save();

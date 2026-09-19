@@ -12,7 +12,6 @@ interface CreateClaimData {
   claimOfficer?: string;
   description: string;
   amount: number;
-  status?: ClaimStatus;
 }
 
 interface UpdateClaimData {
@@ -24,6 +23,14 @@ interface UpdateClaimData {
   status?: ClaimStatus;
   isActive?: boolean;
 }
+
+const allowedStatusTransitions: Record<ClaimStatus, ClaimStatus[]> = {
+  submitted: ["under_review"],
+  under_review: ["approved", "rejected"],
+  approved: ["paid"],
+  rejected: [],
+  paid: [],
+};
 
 const generateClaimNumber = (): string => {
   const timestamp = Date.now();
@@ -73,7 +80,7 @@ const validateClaimOfficer = async (claimOfficerId: string) => {
 
 const validatePolicyOwnership = async (policyId: string, clientId: string) => {
   const policy = await InsurancePolicy.findById(policyId).select(
-    "policyNumber client isActive",
+    "policyNumber client status isActive",
   );
 
   if (!policy) {
@@ -84,6 +91,10 @@ const validatePolicyOwnership = async (policyId: string, clientId: string) => {
     throw new AppError("Insurance policy is inactive", 400);
   }
 
+  if (policy.status !== "active") {
+    throw new AppError("Insurance policy is not active", 400);
+  }
+
   if (policy.client.toString() !== clientId) {
     throw new AppError("Client does not own this policy", 400);
   }
@@ -92,9 +103,18 @@ const validatePolicyOwnership = async (policyId: string, clientId: string) => {
 };
 
 const claimPopulation = [
-  { path: "policy", select: "policyNumber status" },
-  { path: "client", select: "name email role" },
-  { path: "claimOfficer", select: "name email role" },
+  {
+    path: "policy",
+    select: "policyNumber status",
+  },
+  {
+    path: "client",
+    select: "name email role",
+  },
+  {
+    path: "claimOfficer",
+    select: "name email role",
+  },
 ];
 
 export const getClaims = async () => {
@@ -102,7 +122,9 @@ export const getClaims = async () => {
 };
 
 export const getClaimsByClient = async (clientId: string) => {
-  return Claim.find({ client: new Types.ObjectId(clientId), isActive: true })
+  return Claim.find({
+    client: new Types.ObjectId(clientId),
+  })
     .populate(claimPopulation)
     .sort({ createdAt: -1 });
 };
@@ -122,7 +144,11 @@ export const getClaimById = async (
   authenticatedRole: string,
   authenticatedUserId: string,
 ) => {
-  const claim = await getPopulatedClaimById(id);
+  const claim = await Claim.findById(id);
+
+  if (!claim) {
+    throw new AppError("Claim not found", 404);
+  }
 
   if (
     authenticatedRole === "client" &&
@@ -131,7 +157,7 @@ export const getClaimById = async (
     throw new AppError("You do not have permission to access this claim", 403);
   }
 
-  return claim;
+  return getPopulatedClaimById(id);
 };
 
 export const createClaim = async (
@@ -139,13 +165,7 @@ export const createClaim = async (
   authenticatedUserId: string,
   authenticatedRole: string,
 ) => {
-  const {
-    policy,
-    description,
-    amount,
-    status = "submitted",
-    claimOfficer,
-  } = data;
+  const { policy, description, amount, claimOfficer } = data;
 
   let clientId: string;
 
@@ -187,7 +207,7 @@ export const createClaim = async (
     client: new Types.ObjectId(clientId),
     description,
     amount,
-    status,
+    status: "submitted",
     submittedAt: new Date(),
   };
 
@@ -209,9 +229,11 @@ export const updateClaim = async (id: string, data: UpdateClaimData) => {
 
   if (data.policy !== undefined || data.client !== undefined) {
     const effectivePolicy = data.policy ?? claim.policy.toString();
+
     const effectiveClient = data.client ?? claim.client.toString();
 
     await validateClient(effectiveClient);
+
     await validatePolicyOwnership(effectivePolicy, effectiveClient);
   }
 
@@ -238,6 +260,17 @@ export const updateClaim = async (id: string, data: UpdateClaimData) => {
   }
 
   if (data.status !== undefined) {
+    const currentStatus = claim.status;
+
+    const allowedStatuses = allowedStatusTransitions[currentStatus];
+
+    if (!allowedStatuses.includes(data.status)) {
+      throw new AppError(
+        `Invalid claim status transition: ${currentStatus} → ${data.status}`,
+        400,
+      );
+    }
+
     claim.status = data.status;
   }
 
