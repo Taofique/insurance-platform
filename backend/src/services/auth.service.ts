@@ -49,6 +49,10 @@ export const loginUser = async (data: LoginData) => {
     throw new AppError("Invalid email or password", 401);
   }
 
+  if (!user.isActive) {
+    throw new AppError("User account is inactive", 403);
+  }
+
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
@@ -72,6 +76,7 @@ export const loginUser = async (data: LoginData) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      isActive: user.isActive,
     },
   };
 };

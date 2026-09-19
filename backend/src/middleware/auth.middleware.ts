@@ -1,17 +1,19 @@
 import type { Request, Response, NextFunction } from "express";
+
 import jwt from "jsonwebtoken";
-import AppError from "./AppError.js";
+
+import User from "../models/User.js";
 
 interface JwtPayload {
   userId: string;
   role: string;
 }
 
-const authMiddleware = (
+export const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
-): void => {
+): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -34,22 +36,42 @@ const authMiddleware = (
     }
 
     if (!process.env.JWT_SECRET) {
-      next(new AppError("JWT_SECRET is not defined", 500));
-      return;
+      throw new Error("JWT_SECRET is not defined");
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
 
-    req.userId = decoded.userId;
-    req.userRole = decoded.role;
+    const user = await User.findById(decoded.userId).select("role isActive");
+
+    if (!user) {
+      res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    if (!user.isActive) {
+      res.status(403).json({
+        success: false,
+        message: "User account is inactive",
+      });
+      return;
+    }
+
+    req.userId = user._id.toString();
+    req.userRole = user.role;
 
     next();
-  } catch {
-    res.status(401).json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+  } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(401).json({
+        success: false,
+        message: "Invalid or expired token",
+      });
+      return;
+    }
+
+    next(error);
   }
 };
-
-export default authMiddleware;

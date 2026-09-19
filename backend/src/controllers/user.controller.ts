@@ -5,7 +5,7 @@ import {
   getUserById,
   createUser,
   updateUser,
-  deleteUser,
+  deactivateUser,
 } from "../services/user.service.js";
 
 export const getUsersController = async (
@@ -95,7 +95,7 @@ export const updateUserController = async (
   }
 };
 
-export const deleteUserController = async (
+export const deactivateUserController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -111,7 +111,7 @@ export const deleteUserController = async (
       return;
     }
 
-    const user = await deleteUser(id);
+    const user = await deactivateUser(id);
 
     res.status(200).json({
       success: true,

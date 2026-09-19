@@ -4,10 +4,10 @@ import {
   getUsersController,
   createUserController,
   updateUserController,
-  deleteUserController,
+  deactivateUserController,
 } from "../controllers/user.controller.js";
 
-import authMiddleware from "../middleware/auth.middleware.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 import authorize from "../middleware/authorize.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
 
@@ -36,6 +36,11 @@ router.patch(
   updateUserController,
 );
 
-router.delete("/:id", authMiddleware, authorize("admin"), deleteUserController);
+router.delete(
+  "/:id",
+  authMiddleware,
+  authorize("admin"),
+  deactivateUserController,
+);
 
 export default router;

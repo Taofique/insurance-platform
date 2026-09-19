@@ -110,7 +110,7 @@ export const updateUser = async (id: string, data: UpdateUserData) => {
 };
 
 // Deactivate User ( Not Delete)
-export const deleteUser = async (id: string) => {
+export const deactivateUser = async (id: string) => {
   const user = await User.findById(id);
 
   if (!user) {

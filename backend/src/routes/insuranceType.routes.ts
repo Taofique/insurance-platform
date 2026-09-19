@@ -8,7 +8,7 @@ import {
   remove,
 } from "../controllers/insuranceType.controller.js";
 
-import authMiddleware from "../middleware/auth.middleware.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 import authorize from "../middleware/authorize.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
 
