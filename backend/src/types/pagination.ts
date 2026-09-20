@@ -1,3 +1,5 @@
+import AppError from "../middleware/AppError.js";
+
 export interface PaginationParams {
   page: number;
   limit: number;

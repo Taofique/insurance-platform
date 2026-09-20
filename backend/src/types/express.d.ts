@@ -3,6 +3,11 @@ declare global {
     interface Request {
       userId?: string;
       userRole?: string;
+
+      pagination?: {
+        page: number;
+        limit: number;
+      };
     }
   }
 }

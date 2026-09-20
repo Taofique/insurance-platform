@@ -10,6 +10,8 @@ import {
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import authorize from "../middleware/authorize.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
+import { paginationMiddleware } from "../middleware/pagination.middleware.js";
+import { validatePagination } from "../validators/pagination.validator.js";
 
 import {
   validateCreateUser,
@@ -18,7 +20,14 @@ import {
 
 const router = Router();
 
-router.get("/", authMiddleware, authorize("admin"), getUsersController);
+router.get(
+  "/",
+  authMiddleware,
+  authorize("admin"),
+  validate(validatePagination),
+  paginationMiddleware,
+  getUsersController,
+);
 router.get("/:id", authMiddleware, authorize("admin"), getUserByIdController);
 router.post(
   "/",

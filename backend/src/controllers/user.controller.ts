@@ -14,10 +14,18 @@ export const getUsersController = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
+    const pagination = req.pagination;
 
-    const result = await getUsers({ page, limit });
+    if (!pagination) {
+      res.status(500).json({
+        success: false,
+        message: "Pagination was not initialized",
+      });
+      return;
+    }
+
+    const result = await getUsers(pagination);
+
     res.status(200).json({
       success: true,
       ...result,
