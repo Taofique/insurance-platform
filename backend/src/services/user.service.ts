@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import type { UserRole } from "../models/User.js";
 import AppError from "../middleware/AppError.js";
+import type { PaginationParams } from "../types/pagination.js";
 
 interface CreateUserData {
   name: string;
@@ -18,8 +19,28 @@ interface UpdateUserData {
   isActive?: boolean;
 }
 
-export const getUsers = async () => {
-  return User.find().select("-password").sort({ createdAt: -1 });
+export const getUsers = async ({ page, limit }: PaginationParams) => {
+  const skip = (page - 1) * limit;
+
+  const [users, total] = await Promise.all([
+    User.find()
+      .select("-password")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+
+    User.countDocuments(),
+  ]);
+
+  return {
+    data: users,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 export const getUserById = async (id: string) => {
