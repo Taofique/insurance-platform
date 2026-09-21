@@ -27,16 +27,26 @@ export const create = async (
 };
 
 export const getAll = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const insuranceTypes = await getInsuranceTypes();
+    const pagination = req.pagination;
+
+    if (!pagination) {
+      res.status(500).json({
+        success: false,
+        message: "Pagination was not initialized",
+      });
+      return;
+    }
+
+    const result = await getInsuranceTypes(pagination);
 
     res.status(200).json({
       success: true,
-      insuranceTypes,
+      ...result,
     });
   } catch (error) {
     next(error);

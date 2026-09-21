@@ -1,5 +1,6 @@
 import InsuranceType from "../models/InsuranceType.js";
 import AppError from "../middleware/AppError.js";
+import type { PaginationParams } from "../types/pagination.js";
 
 interface CreateInsuranceTypeData {
   name: string;
@@ -27,8 +28,24 @@ export const createInsuranceType = async (data: CreateInsuranceTypeData) => {
   });
 };
 
-export const getInsuranceTypes = async () => {
-  return InsuranceType.find().sort({ createdAt: -1 });
+export const getInsuranceTypes = async ({ page, limit }: PaginationParams) => {
+  const skip = (page - 1) * limit;
+
+  const [insuranceTypes, total] = await Promise.all([
+    InsuranceType.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
+
+    InsuranceType.countDocuments(),
+  ]);
+
+  return {
+    data: insuranceTypes,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 export const getInsuranceTypeById = async (id: string) => {
