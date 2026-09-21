@@ -17,12 +17,19 @@ import {
   validateUpdateInsurancePolicy,
 } from "../validators/insurancePolicy.validator.js";
 
+import { paginationMiddleware } from "../middleware/pagination.middleware.js";
+import { validatePagination } from "../validators/pagination.validator.js";
+import { validateInsurancePolicyQuery } from "../validators/insurancePolicy.validator.js";
+
 const router = Router();
 
 router.get(
   "/",
   authMiddleware,
   authorize("admin", "agent", "claims_officer"),
+  validate(validatePagination),
+  validate(validateInsurancePolicyQuery),
+  paginationMiddleware,
   getInsurancePoliciesController,
 );
 

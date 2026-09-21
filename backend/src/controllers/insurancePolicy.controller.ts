@@ -1,4 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
+import type { PolicyStatus } from "../models/InsurancePolicy.js";
+import type { InsurancePolicyFilters } from "../services/insurancePolicy.service.js";
 
 import {
   getInsurancePolicies,
@@ -9,16 +11,44 @@ import {
 } from "../services/insurancePolicy.service.js";
 
 export const getInsurancePoliciesController = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const policies = await getInsurancePolicies();
+    const pagination = req.pagination;
+
+    if (!pagination) {
+      res.status(500).json({
+        success: false,
+        message: "Pagination was not initialized",
+      });
+      return;
+    }
+
+    const filters: InsurancePolicyFilters = {};
+
+    if (typeof req.query.status === "string") {
+      filters.status = req.query.status as PolicyStatus;
+    }
+
+    if (typeof req.query.client === "string") {
+      filters.client = req.query.client;
+    }
+
+    if (typeof req.query.agent === "string") {
+      filters.agent = req.query.agent;
+    }
+
+    if (typeof req.query.insuranceType === "string") {
+      filters.insuranceType = req.query.insuranceType;
+    }
+
+    const result = await getInsurancePolicies(pagination, filters);
 
     res.status(200).json({
       success: true,
-      data: policies,
+      ...result,
     });
   } catch (error) {
     next(error);

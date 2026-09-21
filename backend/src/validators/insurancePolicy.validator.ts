@@ -237,3 +237,62 @@ export const validateUpdateInsurancePolicy = (
 
   return errors;
 };
+
+export const validateInsurancePolicyQuery = (
+  req: Request,
+): ValidationError[] => {
+  const errors: ValidationError[] = [];
+
+  const { status, client, agent, insuranceType } = req.query;
+
+  if (status !== undefined) {
+    const validStatuses: PolicyStatus[] = [
+      "pending",
+      "active",
+      "expired",
+      "cancelled",
+    ];
+
+    if (
+      typeof status !== "string" ||
+      !validStatuses.includes(status as PolicyStatus)
+    ) {
+      errors.push({
+        field: "status",
+        message: "Status must be one of: pending, active, expired, cancelled",
+      });
+    }
+  }
+
+  if (client !== undefined) {
+    if (typeof client !== "string" || !mongoose.isValidObjectId(client)) {
+      errors.push({
+        field: "client",
+        message: "Invalid client ID",
+      });
+    }
+  }
+
+  if (agent !== undefined) {
+    if (typeof agent !== "string" || !mongoose.isValidObjectId(agent)) {
+      errors.push({
+        field: "agent",
+        message: "Invalid agent ID",
+      });
+    }
+  }
+
+  if (insuranceType !== undefined) {
+    if (
+      typeof insuranceType !== "string" ||
+      !mongoose.isValidObjectId(insuranceType)
+    ) {
+      errors.push({
+        field: "insuranceType",
+        message: "Invalid insurance type ID",
+      });
+    }
+  }
+
+  return errors;
+};

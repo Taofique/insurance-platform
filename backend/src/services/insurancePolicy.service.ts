@@ -5,6 +5,7 @@ import type { PolicyStatus } from "../models/InsurancePolicy.js";
 import User from "../models/User.js";
 import InsuranceType from "../models/InsuranceType.js";
 import AppError from "../middleware/AppError.js";
+import type { PaginationParams } from "../types/pagination.js";
 
 interface CreateInsurancePolicyData {
   client: string;
@@ -25,6 +26,13 @@ interface UpdateInsurancePolicyData {
   premium?: number;
   coverageAmount?: number;
   status?: PolicyStatus;
+}
+
+export interface InsurancePolicyFilters {
+  status?: PolicyStatus;
+  client?: string;
+  agent?: string;
+  insuranceType?: string;
 }
 
 const allowedStatusTransitions: Record<PolicyStatus, PolicyStatus[]> = {
@@ -92,12 +100,56 @@ const validateInsuranceType = async (insuranceTypeId: string) => {
   return insuranceType;
 };
 
-export const getInsurancePolicies = async () => {
-  return InsurancePolicy.find()
-    .populate("client", "name email role")
-    .populate("agent", "name email role")
-    .populate("insuranceType", "name description")
-    .sort({ createdAt: -1 });
+export const getInsurancePolicies = async (
+  { page, limit }: PaginationParams,
+  filters: InsurancePolicyFilters = {},
+) => {
+  const skip = (page - 1) * limit;
+
+  const query: {
+    status?: PolicyStatus;
+    client?: string;
+    agent?: string;
+    insuranceType?: string;
+  } = {};
+
+  if (filters.status !== undefined) {
+    query.status = filters.status;
+  }
+
+  if (filters.client !== undefined) {
+    query.client = filters.client;
+  }
+
+  if (filters.agent !== undefined) {
+    query.agent = filters.agent;
+  }
+
+  if (filters.insuranceType !== undefined) {
+    query.insuranceType = filters.insuranceType;
+  }
+
+  const [policies, total] = await Promise.all([
+    InsurancePolicy.find(query)
+      .populate("client", "name email role")
+      .populate("agent", "name email role")
+      .populate("insuranceType", "name description")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+
+    InsurancePolicy.countDocuments(query),
+  ]);
+
+  return {
+    data: policies,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 export const getInsurancePolicyById = async (id: string) => {
