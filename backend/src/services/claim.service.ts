@@ -5,6 +5,7 @@ import type { ClaimStatus } from "../models/Claim.js";
 import InsurancePolicy from "../models/InsurancePolicy.js";
 import User from "../models/User.js";
 import AppError from "../middleware/AppError.js";
+import type { PaginationParams, SortParams } from "../types/pagination.js";
 
 interface CreateClaimData {
   policy: string;
@@ -102,6 +103,13 @@ const validatePolicyOwnership = async (policyId: string, clientId: string) => {
   return policy;
 };
 
+export interface ClaimFilters {
+  status?: ClaimStatus;
+  client?: string;
+  policy?: string;
+  claimOfficer?: string;
+}
+
 const claimPopulation = [
   {
     path: "policy",
@@ -117,8 +125,63 @@ const claimPopulation = [
   },
 ];
 
-export const getClaims = async () => {
-  return Claim.find().populate(claimPopulation).sort({ createdAt: -1 });
+export const getClaims = async (
+  { page, limit }: PaginationParams,
+  filters: ClaimFilters = {},
+  sorting: SortParams = {},
+) => {
+  const skip = (page - 1) * limit;
+
+  const query: {
+    status?: ClaimStatus;
+    client?: string;
+    policy?: string;
+    claimOfficer?: string;
+  } = {};
+
+  if (filters.status !== undefined) {
+    query.status = filters.status;
+  }
+
+  if (filters.client !== undefined) {
+    query.client = filters.client;
+  }
+
+  if (filters.policy !== undefined) {
+    query.policy = filters.policy;
+  }
+
+  if (filters.claimOfficer !== undefined) {
+    query.claimOfficer = filters.claimOfficer;
+  }
+
+  const sortField = sorting.sortBy ?? "createdAt";
+
+  const sortDirection = sorting.sortOrder === "asc" ? 1 : -1;
+
+  const sort: Record<string, 1 | -1> = {
+    [sortField]: sortDirection,
+  };
+
+  const [claims, total] = await Promise.all([
+    Claim.find(query)
+      .populate(claimPopulation)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit),
+
+    Claim.countDocuments(query),
+  ]);
+
+  return {
+    data: claims,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 export const getClaimsByClient = async (clientId: string) => {

@@ -1,4 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
+import type { ClaimStatus } from "../models/Claim.js";
+import type { ClaimFilters } from "../services/claim.service.js";
+import type { SortOrder, SortParams } from "../types/pagination.js";
 
 import {
   getClaims,
@@ -10,16 +13,54 @@ import {
 } from "../services/claim.service.js";
 
 export const getClaimsController = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const claims = await getClaims();
+    const pagination = req.pagination;
+
+    if (!pagination) {
+      res.status(500).json({
+        success: false,
+        message: "Pagination was not initialized",
+      });
+      return;
+    }
+
+    const filters: ClaimFilters = {};
+
+    if (typeof req.query.status === "string") {
+      filters.status = req.query.status as ClaimStatus;
+    }
+
+    if (typeof req.query.client === "string") {
+      filters.client = req.query.client;
+    }
+
+    if (typeof req.query.policy === "string") {
+      filters.policy = req.query.policy;
+    }
+
+    if (typeof req.query.claimOfficer === "string") {
+      filters.claimOfficer = req.query.claimOfficer;
+    }
+
+    const sorting: SortParams = {};
+
+    if (typeof req.query.sortBy === "string") {
+      sorting.sortBy = req.query.sortBy;
+    }
+
+    if (typeof req.query.sortOrder === "string") {
+      sorting.sortOrder = req.query.sortOrder as SortOrder;
+    }
+
+    const result = await getClaims(pagination, filters, sorting);
 
     res.status(200).json({
       success: true,
-      data: claims,
+      ...result,
     });
   } catch (error) {
     next(error);

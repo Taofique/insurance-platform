@@ -2,6 +2,7 @@ import type { Request } from "express";
 import mongoose from "mongoose";
 
 import type { ClaimStatus } from "../models/Claim.js";
+import { validateSorting } from "./sorting.validator.js";
 
 interface ValidationError {
   field: string;
@@ -15,6 +16,14 @@ const allowedStatuses: ClaimStatus[] = [
   "rejected",
   "paid",
 ];
+
+const allowedSortFields = [
+  "createdAt",
+  "updatedAt",
+  "submittedAt",
+  "amount",
+  "status",
+] as const;
 
 const isValidObjectId = (value: unknown): boolean => {
   return typeof value === "string" && mongoose.Types.ObjectId.isValid(value);
@@ -161,6 +170,59 @@ export const validateUpdateClaim = (req: Request): ValidationError[] => {
       });
     }
   }
+
+  return errors;
+};
+
+export const validateClaimQuery = (req: Request): ValidationError[] => {
+  const errors: ValidationError[] = [];
+
+  const { status, client, policy, claimOfficer } = req.query;
+
+  if (status !== undefined) {
+    if (
+      typeof status !== "string" ||
+      !allowedStatuses.includes(status as ClaimStatus)
+    ) {
+      errors.push({
+        field: "status",
+        message:
+          "Status must be one of: submitted, under_review, approved, rejected, paid",
+      });
+    }
+  }
+
+  if (client !== undefined) {
+    if (typeof client !== "string" || !mongoose.isValidObjectId(client)) {
+      errors.push({
+        field: "client",
+        message: "Invalid client ID",
+      });
+    }
+  }
+
+  if (policy !== undefined) {
+    if (typeof policy !== "string" || !mongoose.isValidObjectId(policy)) {
+      errors.push({
+        field: "policy",
+        message: "Invalid policy ID",
+      });
+    }
+  }
+
+  if (claimOfficer !== undefined) {
+    if (
+      typeof claimOfficer !== "string" ||
+      !mongoose.isValidObjectId(claimOfficer)
+    ) {
+      errors.push({
+        field: "claimOfficer",
+        message: "Invalid claim officer ID",
+      });
+    }
+  }
+
+  errors.push(...validateSorting(req, allowedSortFields));
 
   return errors;
 };

@@ -16,7 +16,11 @@ import { validate } from "../middleware/validate.middleware.js";
 import {
   validateCreateClaim,
   validateUpdateClaim,
+  validateClaimQuery,
 } from "../validators/claim.validator.js";
+
+import { paginationMiddleware } from "../middleware/pagination.middleware.js";
+import { validatePagination } from "../validators/pagination.validator.js";
 
 const router = Router();
 
@@ -31,6 +35,9 @@ router.get(
   "/",
   authMiddleware,
   authorize("admin", "agent", "claims_officer"),
+  validate(validatePagination),
+  validate(validateClaimQuery),
+  paginationMiddleware,
   getClaimsController,
 );
 
