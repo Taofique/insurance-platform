@@ -33,7 +33,13 @@ export const getUsers = async ({ page, limit }: PaginationParams) => {
   ]);
 
   return {
-    data: users,
+    data: users.map((user) => ({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      isActive: user.isActive,
+    })),
     pagination: {
       page,
       limit,
@@ -50,7 +56,13 @@ export const getUserById = async (id: string) => {
     throw new AppError("User not found", 404);
   }
 
-  return user;
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    isActive: user.isActive,
+  };
 };
 
 export const createUser = async (data: CreateUserData) => {
