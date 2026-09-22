@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import type { PolicyStatus } from "../models/InsurancePolicy.js";
 import type { InsurancePolicyFilters } from "../services/insurancePolicy.service.js";
+import type { SortOrder, SortParams } from "../types/pagination.js";
 
 import {
   getInsurancePolicies,
@@ -44,7 +45,17 @@ export const getInsurancePoliciesController = async (
       filters.insuranceType = req.query.insuranceType;
     }
 
-    const result = await getInsurancePolicies(pagination, filters);
+    const sorting: SortParams = {};
+
+    if (typeof req.query.sortBy === "string") {
+      sorting.sortBy = req.query.sortBy;
+    }
+
+    if (typeof req.query.sortOrder === "string") {
+      sorting.sortOrder = req.query.sortOrder as SortOrder;
+    }
+
+    const result = await getInsurancePolicies(pagination, filters, sorting);
 
     res.status(200).json({
       success: true,

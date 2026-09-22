@@ -5,7 +5,7 @@ import type { PolicyStatus } from "../models/InsurancePolicy.js";
 import User from "../models/User.js";
 import InsuranceType from "../models/InsuranceType.js";
 import AppError from "../middleware/AppError.js";
-import type { PaginationParams } from "../types/pagination.js";
+import type { PaginationParams, SortParams } from "../types/pagination.js";
 
 interface CreateInsurancePolicyData {
   client: string;
@@ -103,6 +103,7 @@ const validateInsuranceType = async (insuranceTypeId: string) => {
 export const getInsurancePolicies = async (
   { page, limit }: PaginationParams,
   filters: InsurancePolicyFilters = {},
+  sorting: SortParams = {},
 ) => {
   const skip = (page - 1) * limit;
 
@@ -129,12 +130,20 @@ export const getInsurancePolicies = async (
     query.insuranceType = filters.insuranceType;
   }
 
+  const sortField = sorting.sortBy ?? "createdAt";
+
+  const sortDirection = sorting.sortOrder === "asc" ? 1 : -1;
+
+  const sort: Record<string, 1 | -1> = {
+    [sortField]: sortDirection,
+  };
+
   const [policies, total] = await Promise.all([
     InsurancePolicy.find(query)
       .populate("client", "name email role")
       .populate("agent", "name email role")
       .populate("insuranceType", "name description")
-      .sort({ createdAt: -1 })
+      .sort(sort)
       .skip(skip)
       .limit(limit),
 

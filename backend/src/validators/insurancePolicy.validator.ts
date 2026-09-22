@@ -2,6 +2,7 @@ import type { Request } from "express";
 import mongoose from "mongoose";
 
 import type { PolicyStatus } from "../models/InsurancePolicy.js";
+import { validateSorting } from "./sorting.validator.js";
 
 interface ValidationError {
   field: string;
@@ -14,6 +15,17 @@ const allowedStatuses: PolicyStatus[] = [
   "expired",
   "cancelled",
 ];
+
+const allowedSortFields = [
+  "createdAt",
+  "updatedAt",
+  "policyNumber",
+  "startDate",
+  "endDate",
+  "premium",
+  "coverageAmount",
+  "status",
+] as const;
 
 const isValidObjectId = (value: unknown): boolean => {
   return typeof value === "string" && mongoose.Types.ObjectId.isValid(value);
@@ -293,6 +305,8 @@ export const validateInsurancePolicyQuery = (
       });
     }
   }
+
+  errors.push(...validateSorting(req, allowedSortFields));
 
   return errors;
 };

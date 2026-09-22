@@ -11,3 +11,10 @@ export interface PaginationMeta {
   total: number;
   totalPages: number;
 }
+
+export type SortOrder = "asc" | "desc";
+
+export interface SortParams {
+  sortBy?: string;
+  sortOrder?: SortOrder;
+}
