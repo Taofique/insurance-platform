@@ -19,7 +19,7 @@ export const create = async (
     res.status(201).json({
       success: true,
       message: "Insurance type created successfully",
-      insuranceType,
+      data: insuranceType,
     });
   } catch (error) {
     next(error);
@@ -73,7 +73,7 @@ export const getById = async (
 
     res.status(200).json({
       success: true,
-      insuranceType,
+      data: insuranceType,
     });
   } catch (error) {
     next(error);
@@ -101,7 +101,7 @@ export const update = async (
     res.status(200).json({
       success: true,
       message: "Insurance type updated successfully",
-      insuranceType,
+      data: insuranceType,
     });
   } catch (error) {
     next(error);

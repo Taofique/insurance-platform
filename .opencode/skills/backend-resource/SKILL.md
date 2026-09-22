@@ -1,3 +1,8 @@
+---
+name: backend-resource
+description: Create a new backend resource in this repository following the existing architecture - model, validator, service, controller, routes, authentication, authorization, and build verification, additive-only without refactoring existing code.
+---
+
 # Backend Resource Skill
 
 ## Purpose
