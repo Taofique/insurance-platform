@@ -6,6 +6,7 @@ import {
   createInsurancePolicyController,
   updateInsurancePolicyController,
   deactivateInsurancePolicyController,
+  getMyInsurancePoliciesController,
 } from "../controllers/insurancePolicy.controller.js";
 
 import { authMiddleware } from "../middleware/auth.middleware.js";
@@ -31,6 +32,15 @@ router.get(
   validate(validateInsurancePolicyQuery),
   paginationMiddleware,
   getInsurancePoliciesController,
+);
+
+router.get(
+  "/my",
+  authMiddleware,
+  authorize("client"),
+  validate(validatePagination),
+  paginationMiddleware,
+  getMyInsurancePoliciesController,
 );
 
 router.get(

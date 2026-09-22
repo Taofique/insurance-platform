@@ -307,3 +307,36 @@ export const deactivateInsurancePolicy = async (id: string) => {
 
   return getInsurancePolicyById(policy._id.toString());
 };
+
+export const getInsurancePoliciesByClient = async (
+  clientId: string,
+  { page, limit }: PaginationParams,
+) => {
+  const skip = (page - 1) * limit;
+
+  const query = {
+    client: clientId,
+  };
+
+  const [policies, total] = await Promise.all([
+    InsurancePolicy.find(query)
+      .populate("client", "name email role")
+      .populate("agent", "name email role")
+      .populate("insuranceType", "name description")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+
+    InsurancePolicy.countDocuments(query),
+  ]);
+
+  return {
+    data: policies,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+};

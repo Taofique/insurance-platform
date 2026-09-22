@@ -9,6 +9,7 @@ import {
   createInsurancePolicy,
   updateInsurancePolicy,
   deactivateInsurancePolicy,
+  getInsurancePoliciesByClient,
 } from "../services/insurancePolicy.service.js";
 
 export const getInsurancePoliciesController = async (
@@ -159,6 +160,41 @@ export const deactivateInsurancePolicyController = async (
       success: true,
       message: "Insurance policy deactivated successfully",
       data: policy,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMyInsurancePoliciesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const pagination = req.pagination;
+
+    if (!pagination) {
+      res.status(500).json({
+        success: false,
+        message: "Pagination was not initialized",
+      });
+      return;
+    }
+
+    if (!req.userId) {
+      res.status(401).json({
+        success: false,
+        message: "Authentication required",
+      });
+      return;
+    }
+
+    const result = await getInsurancePoliciesByClient(req.userId, pagination);
+
+    res.status(200).json({
+      success: true,
+      ...result,
     });
   } catch (error) {
     next(error);
