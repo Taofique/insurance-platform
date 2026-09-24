@@ -7,7 +7,11 @@ import {
   type ReactNode,
 } from "react";
 
-import { getMe, login as loginRequest } from "../services/auth.service";
+import {
+  getMe,
+  login as loginRequest,
+  logout as logoutRequest,
+} from "../services/auth.service";
 
 import type { AuthUser, LoginCredentials } from "../types/auth";
 
@@ -16,6 +20,7 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<AuthUser>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -52,11 +57,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return response.user;
   };
 
+  const logout = async (): Promise<void> => {
+    try {
+      await logoutRequest();
+    } finally {
+      setUser(null);
+    }
+  };
+
   const value: AuthContextValue = {
     user,
     isAuthenticated: user !== null,
     isLoading,
     login,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -23,3 +23,8 @@ export interface MeResponse {
   success: true;
   user: AuthUser;
 }
+
+export interface LogoutResponse {
+  success: true;
+  message: string;
+}
