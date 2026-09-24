@@ -1,15 +1,28 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
 import authRoutes from "./routes/auth.routes.js";
 import healthRoutes from "./routes/health.routes.js";
 import InsuranceTypeRoutes from "./routes/insuranceType.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import insurancePolicyRoutes from "./routes/insurancePolicy.routes.js";
 import claimRoutes from "./routes/claim.routes.js";
+
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
+
 const app = express();
 
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(loggerMiddleware);
 

@@ -25,12 +25,19 @@ export const login = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const result = await loginUser(req.body);
+    const { token, user } = await loginUser(req.body);
+
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 1000,
+    });
 
     res.status(200).json({
       success: true,
       message: "Login successful",
-      ...result,
+      user,
     });
   } catch (error) {
     next(error);
