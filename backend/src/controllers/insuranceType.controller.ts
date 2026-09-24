@@ -5,7 +5,7 @@ import {
   getInsuranceTypes,
   getInsuranceTypeById,
   updateInsuranceType,
-  deleteInsuranceType,
+  deactivateInsuranceType,
 } from "../services/insuranceType.service.js";
 
 export const create = async (
@@ -108,7 +108,7 @@ export const update = async (
   }
 };
 
-export const remove = async (
+export const deactivateInsuranceTypeController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -124,11 +124,12 @@ export const remove = async (
       return;
     }
 
-    await deleteInsuranceType(id);
+    const insuranceType = await deactivateInsuranceType(id);
 
     res.status(200).json({
       success: true,
-      message: "Insurance type deleted successfully",
+      message: "Insurance type deactivated successfully",
+      data: insuranceType,
     });
   } catch (error) {
     next(error);

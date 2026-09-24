@@ -84,12 +84,17 @@ export const updateInsuranceType = async (
   return insuranceType.save();
 };
 
-export const deleteInsuranceType = async (id: string) => {
+// Deactivate Insurance Type (Not Delete)
+export const deactivateInsuranceType = async (id: string) => {
   const insuranceType = await InsuranceType.findById(id);
 
   if (!insuranceType) {
     throw new AppError("Insurance type not found", 404);
   }
 
-  await insuranceType.deleteOne();
+  insuranceType.isActive = false;
+
+  await insuranceType.save();
+
+  return insuranceType;
 };

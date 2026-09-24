@@ -5,7 +5,7 @@ import {
   getAll,
   getById,
   update,
-  remove,
+  deactivateInsuranceTypeController,
 } from "../controllers/insuranceType.controller.js";
 
 import { authMiddleware } from "../middleware/auth.middleware.js";
@@ -42,6 +42,11 @@ router.post(
 router.patch("/:id", authMiddleware, authorize("admin"), update);
 
 //delete
-router.delete("/:id", authMiddleware, authorize("admin"), remove);
+router.delete(
+  "/:id",
+  authMiddleware,
+  authorize("admin"),
+  deactivateInsuranceTypeController,
+);
 
 export default router;
