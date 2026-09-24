@@ -45,6 +45,7 @@ export const validateCreateInsurancePolicy = (
     premium,
     coverageAmount,
     status,
+    isActive,
   } = req.body;
 
   if (!client) {
@@ -132,15 +133,17 @@ export const validateCreateInsurancePolicy = (
   }
 
   if (status !== undefined) {
-    if (
-      typeof status !== "string" ||
-      !allowedStatuses.includes(status as PolicyStatus)
-    ) {
-      errors.push({
-        field: "status",
-        message: "Invalid policy status",
-      });
-    }
+    errors.push({
+      field: "status",
+      message: "status is controlled by the system and cannot be set directly",
+    });
+  }
+
+  if (isActive !== undefined) {
+    errors.push({
+      field: "isActive",
+      message: "isActive is controlled by the system and cannot be set directly",
+    });
   }
 
   return errors;
@@ -239,12 +242,10 @@ export const validateUpdateInsurancePolicy = (
   }
 
   if (isActive !== undefined) {
-    if (typeof isActive !== "boolean") {
-      errors.push({
-        field: "isActive",
-        message: "isActive must be a boolean",
-      });
-    }
+    errors.push({
+      field: "isActive",
+      message: "isActive is controlled by the system and cannot be set directly",
+    });
   }
 
   return errors;

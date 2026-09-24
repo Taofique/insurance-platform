@@ -32,7 +32,7 @@ const isValidObjectId = (value: unknown): boolean => {
 export const validateCreateClaim = (req: Request): ValidationError[] => {
   const errors: ValidationError[] = [];
 
-  const { policy, client, claimOfficer, description, amount, status } =
+  const { policy, client, claimOfficer, description, amount, status, isActive } =
     req.body;
 
   if (!policy) {
@@ -85,15 +85,17 @@ export const validateCreateClaim = (req: Request): ValidationError[] => {
   }
 
   if (status !== undefined) {
-    if (
-      typeof status !== "string" ||
-      !allowedStatuses.includes(status as ClaimStatus)
-    ) {
-      errors.push({
-        field: "status",
-        message: "Invalid claim status",
-      });
-    }
+    errors.push({
+      field: "status",
+      message: "status is controlled by the system and cannot be set directly",
+    });
+  }
+
+  if (isActive !== undefined) {
+    errors.push({
+      field: "isActive",
+      message: "isActive is controlled by the system and cannot be set directly",
+    });
   }
 
   return errors;
@@ -163,12 +165,10 @@ export const validateUpdateClaim = (req: Request): ValidationError[] => {
   }
 
   if (isActive !== undefined) {
-    if (typeof isActive !== "boolean") {
-      errors.push({
-        field: "isActive",
-        message: "isActive must be a boolean",
-      });
-    }
+    errors.push({
+      field: "isActive",
+      message: "isActive is controlled by the system and cannot be set directly",
+    });
   }
 
   return errors;
