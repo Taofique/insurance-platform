@@ -1,304 +1,253 @@
 import {
-  FileText,
-  Users,
-  DollarSign,
-  TrendingUp,
+  ChevronRight,
+  ClipboardList,
   Clock,
-  CheckCircle,
-  AlertCircle,
-  UserCheck,
+  Download,
+  DollarSign,
+  FileText,
+  TrendingUp,
+  UserPlus,
+  Users,
 } from "lucide-react";
-import AgentPortalLayout from "../../../layouts/AgentPortalLayout";
+import { Link } from "react-router";
+import Button from "../../../components/ui/Button";
+import SectionHeader from "../../../components/dashboard/SectionHeader";
+import StatCard from "../../../components/dashboard/StatCard";
+import StatusBadge from "../../../components/dashboard/StatusBadge";
+import QuickActions from "../../../components/dashboard/QuickActions";
+import {
+  attentionTasks,
+  performanceData,
+  recentClaims,
+  recentClients,
+} from "../../data/agent-dashboard";
+
+const priorityClasses: Record<string, string> = {
+  high: "bg-red-50 text-red-600",
+  medium: "bg-amber-50 text-amber-600",
+  low: "bg-blue-50 text-blue-600",
+};
 
 export default function AgentDashboard() {
-  // Mock data - replace with real data later
   const stats = [
     {
       label: "Total Clients",
       value: "45",
       icon: Users,
-      color: "bg-blue-100 text-blue-600",
+      iconClasses: "bg-blue-100 text-blue-600",
       change: "+12%",
     },
     {
       label: "Active Policies",
       value: "78",
       icon: FileText,
-      color: "bg-green-100 text-green-600",
+      iconClasses: "bg-green-100 text-green-600",
       change: "+8%",
     },
     {
       label: "Commission Earned",
       value: "$12,450",
       icon: DollarSign,
-      color: "bg-purple-100 text-purple-600",
+      iconClasses: "bg-purple-100 text-purple-600",
       change: "+15%",
     },
     {
       label: "Leads Generated",
       value: "12",
       icon: TrendingUp,
-      color: "bg-orange-100 text-orange-600",
+      iconClasses: "bg-orange-100 text-orange-600",
       change: "+5%",
     },
   ];
 
-  const recentClaims = [
+  const quickActions = [
     {
-      id: 1,
-      client: "Ahmed Hasan",
-      policy: "Health Insurance",
-      amount: "$5,000",
-      status: "Pending",
-      date: "Sep 1, 2026",
+      label: "Add Client",
+      description: "Enroll a new client",
+      to: "/agent/clients/add",
+      icon: UserPlus,
     },
     {
-      id: 2,
-      client: "Fatema Begum",
-      policy: "Life Insurance",
-      amount: "$15,000",
-      status: "Approved",
-      date: "Aug 30, 2026",
+      label: "New Policy",
+      description: "Issue a new policy",
+      to: "/agent/policies/all",
+      icon: FileText,
     },
     {
-      id: 3,
-      client: "Md. Rahman",
-      policy: "Auto Insurance",
-      amount: "$2,500",
-      status: "Approved",
-      date: "Aug 28, 2026",
+      label: "Review Claims",
+      description: "Pending claim approvals",
+      to: "/agent/claims/pending",
+      icon: ClipboardList,
     },
     {
-      id: 4,
-      client: "Nasrin Akhter",
-      policy: "Property Insurance",
-      amount: "$8,000",
-      status: "Rejected",
-      date: "Aug 25, 2026",
+      label: "View Leads",
+      description: "Recent lead activity",
+      to: "/agent/leads/new",
+      icon: TrendingUp,
     },
   ];
-
-  const recentClients = [
-    {
-      id: 1,
-      name: "Tarif Al-Mozahed",
-      email: "tarif@email.com",
-      policy: "Health Insurance",
-      date: "Sep 1, 2026",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Sadia Khan",
-      email: "sadia@email.com",
-      policy: "Life Insurance",
-      date: "Aug 28, 2026",
-      status: "Active",
-    },
-    {
-      id: 3,
-      name: "Rafiqul Islam",
-      email: "rafiq@email.com",
-      policy: "Auto Insurance",
-      date: "Aug 25, 2026",
-      status: "Pending",
-    },
-  ];
-
-  const performanceData = [
-    { label: "Monthly Target", value: "$50,000", progress: 75 },
-    { label: "Client Satisfaction", value: "94%", progress: 94 },
-    { label: "Claim Settlement", value: "88%", progress: 88 },
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "pending":
-        return "bg-yellow-100 text-yellow-600";
-      case "approved":
-        return "bg-green-100 text-green-600";
-      case "rejected":
-        return "bg-red-100 text-red-600";
-      default:
-        return "bg-gray-100 text-gray-600";
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "pending":
-        return <Clock size={14} className="text-yellow-600" />;
-      case "approved":
-        return <CheckCircle size={14} className="text-green-600" />;
-      case "rejected":
-        return <AlertCircle size={14} className="text-red-600" />;
-      default:
-        return null;
-    }
-  };
 
   return (
-    <AgentPortalLayout>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500">
-              Last updated: Today, 2:30 PM
-            </span>
-            <button className="px-4 py-2 bg-[#ac3e25] text-white rounded-lg text-sm font-medium hover:bg-[#8a3220] transition-colors">
-              Generate Report
-            </button>
+    <div className="mx-auto max-w-7xl">
+      {/* Page header */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="font-poppins text-2xl font-semibold text-gray-900">
+            Dashboard
+          </h1>
+          <p className="mt-1 font-poppins text-sm text-gray-500">
+            Overview of your clients, policies and performance.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="hidden font-poppins text-sm text-gray-500 sm:block">
+            Last updated: Today, 2:30 PM
+          </span>
+          <Button
+            variant="primary"
+            size="sm"
+            icon={<Download size={16} />}
+            iconPosition="left"
+            onClick={() => {
+              /* Handle report generation */
+            }}
+          >
+            Generate Report
+          </Button>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <StatCard
+            key={stat.label}
+            label={stat.label}
+            value={stat.value}
+            icon={stat.icon}
+            iconClasses={stat.iconClasses}
+            change={stat.change}
+          />
+        ))}
+      </section>
+
+      {/* Welcome Card */}
+      <section className="mt-6 overflow-hidden rounded-xl bg-gradient-to-r from-[#ac3e25] to-[#8a3220] p-6 text-white sm:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <h2 className="font-poppins text-xl font-semibold sm:text-2xl">
+              Welcome back, John!
+            </h2>
+            <p className="mt-1 font-poppins text-sm text-white/80">
+              You have 3 pending tasks to review today.
+            </p>
           </div>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className={`p-3 rounded-xl ${stat.color}`}>
-                  <stat.icon size={24} />
-                </div>
-                <span className="text-sm font-medium text-green-600">
-                  {stat.change}
-                </span>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">{stat.label}</p>
-                <p className="text-2xl font-semibold text-gray-800 mt-1">
-                  {stat.value}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Welcome Card */}
-        <div className="bg-gradient-to-r from-[#ac3e25] to-[#8a3220] rounded-xl p-6 text-white mb-8">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-2xl font-semibold mb-1">
-                Welcome Back, John!
-              </h2>
-              <p className="text-white/80">
-                You have 3 pending tasks to review today.
+          <div className="flex gap-3">
+            <div className="rounded-lg bg-white/15 px-4 py-3 text-center backdrop-blur-sm">
+              <p className="font-poppins text-xs text-white/80">
+                Today's Target
               </p>
+              <p className="font-poppins font-semibold">$2,500</p>
             </div>
-            <div className="flex gap-3">
-              <div className="bg-white/20 rounded-lg px-4 py-2 text-center">
-                <p className="text-xs text-white/80">Today's Target</p>
-                <p className="font-semibold">$2,500</p>
-              </div>
-              <div className="bg-white/20 rounded-lg px-4 py-2 text-center">
-                <p className="text-xs text-white/80">Achieved</p>
-                <p className="font-semibold">$1,800</p>
-              </div>
+            <div className="rounded-lg bg-white/15 px-4 py-3 text-center backdrop-blur-sm">
+              <p className="font-poppins text-xs text-white/80">Achieved</p>
+              <p className="font-poppins font-semibold">$1,800</p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Recent Claims */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-gray-800">Recent Claims</h3>
-              <button className="text-sm text-[#ac3e25] hover:underline">
-                View All
-              </button>
-            </div>
-            <div className="space-y-3">
-              {recentClaims.map((claim) => (
-                <div
-                  key={claim.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="font-medium text-sm text-gray-800">
-                        {claim.client}
-                      </p>
-                      {getStatusIcon(claim.status)}
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      {claim.policy} • {claim.date}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-gray-800">
-                      {claim.amount}
-                    </span>
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${getStatusColor(claim.status)}`}
-                    >
-                      {claim.status}
-                    </span>
-                  </div>
+      {/* Recent Claims | Recent Clients */}
+      <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+          <SectionHeader
+            title="Recent Claims"
+            subtitle="Latest claim submissions"
+            actionLabel="View all"
+            to="/agent/claims"
+          />
+          <ul className="divide-y divide-gray-100">
+            {recentClaims.map((claim) => (
+              <li
+                key={claim.id}
+                className="flex items-center gap-4 py-3.5 first:pt-0 last:pb-0"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-poppins text-sm font-semibold text-gray-900">
+                    {claim.client}
+                  </p>
+                  <p className="truncate font-poppins text-xs text-gray-500">
+                    {claim.policy} · {claim.date}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Clients */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-gray-800">Recent Clients</h3>
-              <button className="text-sm text-[#ac3e25] hover:underline">
-                View All
-              </button>
-            </div>
-            <div className="space-y-3">
-              {recentClients.map((client) => (
-                <div
-                  key={client.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#f7ece9] flex items-center justify-center">
-                      <UserCheck size={18} className="text-[#ac3e25]" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-sm text-gray-800">
-                        {client.name}
-                      </p>
-                      <p className="text-xs text-gray-500">{client.email}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-gray-500">{client.policy}</p>
-                    <span
-                      className={`text-xs ${client.status === "Active" ? "text-green-600" : "text-yellow-600"}`}
-                    >
-                      {client.status}
-                    </span>
-                  </div>
+                <div className="shrink-0 text-right">
+                  <p className="font-poppins text-sm font-semibold text-gray-900">
+                    {claim.amount}
+                  </p>
+                  <StatusBadge status={claim.status} />
                 </div>
-              ))}
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Performance Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800 mb-4">
-            Performance Overview
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+          <SectionHeader
+            title="Recent Clients"
+            subtitle="Newest additions this month"
+            actionLabel="View all"
+            to="/agent/clients/list"
+          />
+          <ul className="divide-y divide-gray-100">
+            {recentClients.map((client) => (
+              <li
+                key={client.id}
+                className="flex items-center gap-4 py-3.5 first:pt-0 last:pb-0"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#f7ece9] text-[#ac3e25]">
+                  <Users size={18} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-poppins text-sm font-semibold text-gray-900">
+                    {client.name}
+                  </p>
+                  <p className="truncate font-poppins text-xs text-gray-500">
+                    {client.email} · {client.date}
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className="mb-1 truncate font-poppins text-xs text-gray-500">
+                    {client.policy}
+                  </p>
+                  <StatusBadge status={client.status} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Performance | Needs attention */}
+      <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm lg:col-span-2">
+          <SectionHeader
+            title="Performance Overview"
+            subtitle="Key targets for this quarter"
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {performanceData.map((item) => (
-              <div key={item.label} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">{item.label}</span>
-                  <span className="text-sm font-semibold text-gray-800">
+              <div key={item.label}>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-poppins text-sm text-gray-600">
+                    {item.label}
+                  </span>
+                  <span className="font-poppins text-sm font-semibold text-gray-900">
                     {item.value}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="mt-2 h-2.5 w-full rounded-full bg-gray-100">
                   <div
-                    className="bg-[#ac3e25] h-2.5 rounded-full transition-all duration-500"
+                    className="h-2.5 rounded-full bg-[#ac3e25] transition-all duration-500"
                     style={{ width: `${item.progress}%` }}
                   />
                 </div>
@@ -306,7 +255,51 @@ export default function AgentDashboard() {
             ))}
           </div>
         </div>
-      </div>
-    </AgentPortalLayout>
+
+        <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+          <SectionHeader
+            title="Needs Attention"
+            subtitle="Tasks pending your review"
+          />
+          <ul className="space-y-1">
+            {attentionTasks.map((task) => (
+              <li key={task.id}>
+                <Link
+                  to={task.to}
+                  className="group flex items-start gap-3 rounded-lg p-2.5 transition-colors hover:bg-gray-50"
+                >
+                  <span
+                    className={`mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg ${priorityClasses[task.priority]}`}
+                  >
+                    <Clock size={15} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-poppins text-sm font-medium text-gray-900">
+                      {task.label}
+                    </span>
+                    <span className="block font-poppins text-xs text-gray-500">
+                      {task.meta}
+                    </span>
+                  </span>
+                  <ChevronRight
+                    size={16}
+                    className="mt-1 shrink-0 text-gray-400 transition-colors group-hover:text-[#ac3e25]"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Quick actions */}
+      <section className="mt-6">
+        <SectionHeader
+          title="Quick Actions"
+          subtitle="Frequently used tools"
+        />
+        <QuickActions actions={quickActions} className="sm:grid-cols-2 xl:grid-cols-4" />
+      </section>
+    </div>
   );
 }

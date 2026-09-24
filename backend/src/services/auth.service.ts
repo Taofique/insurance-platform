@@ -80,3 +80,19 @@ export const loginUser = async (data: LoginData) => {
     },
   };
 };
+
+export const getCurrentUser = async (userId: string) => {
+  const user = await User.findById(userId).select("name email role isActive");
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    isActive: user.isActive,
+  };
+};

@@ -18,3 +18,8 @@ export interface LoginResponse {
   message: string;
   user: AuthUser;
 }
+
+export interface MeResponse {
+  success: true;
+  user: AuthUser;
+}

@@ -1,10 +1,13 @@
 import { useState, type SyntheticEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
-
-import { login } from "../../app/services/auth.service";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../app/context/AuthContext";
 import Button from "../ui/Button";
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,12 +20,22 @@ export default function LoginForm() {
     setIsLoading(true);
 
     try {
-      const response = await login({
+      const user = await login({
         email,
         password,
       });
 
-      console.log("Logged in user:", response.user);
+      if (user.role === "client") {
+        navigate("/customer/dashboard", { replace: true });
+        return;
+      }
+
+      if (user.role === "agent") {
+        navigate("/agent/dashboard", { replace: true });
+        return;
+      }
+
+      setError("No dashboard is available for this account role yet.");
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Something went wrong";
