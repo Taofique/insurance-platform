@@ -2,6 +2,7 @@ import { useState, type SyntheticEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../app/context/AuthContext";
+import { getDashboardPath } from "../../app/roles";
 import Button from "../ui/Button";
 
 export default function LoginForm() {
@@ -25,17 +26,7 @@ export default function LoginForm() {
         password,
       });
 
-      if (user.role === "client") {
-        navigate("/customer/dashboard", { replace: true });
-        return;
-      }
-
-      if (user.role === "agent") {
-        navigate("/agent/dashboard", { replace: true });
-        return;
-      }
-
-      setError("No dashboard is available for this account role yet.");
+      navigate(getDashboardPath(user.role), { replace: true });
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Something went wrong";

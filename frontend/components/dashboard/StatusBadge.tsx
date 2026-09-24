@@ -7,6 +7,9 @@ const statusConfig: Record<
   { label: string; dot: string; badge: string }
 > = {
   active: { label: "Active", dot: "bg-green-500", badge: "bg-green-50 text-green-700" },
+  inactive: { label: "Inactive", dot: "bg-gray-400", badge: "bg-gray-100 text-gray-600" },
+  submitted: { label: "Submitted", dot: "bg-blue-500", badge: "bg-blue-50 text-blue-700" },
+  under_review: { label: "Under Review", dot: "bg-yellow-500", badge: "bg-yellow-50 text-yellow-700" },
   approved: { label: "Approved", dot: "bg-green-500", badge: "bg-green-50 text-green-700" },
   settled: { label: "Settled", dot: "bg-green-500", badge: "bg-green-50 text-green-700" },
   paid: { label: "Paid", dot: "bg-green-500", badge: "bg-green-50 text-green-700" },

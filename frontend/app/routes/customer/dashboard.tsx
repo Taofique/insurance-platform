@@ -15,8 +15,10 @@ import {
   customerPolicies,
   customerPremiumPayments,
 } from "../../data/customer-dashboard";
+import { useAuth } from "../../context/AuthContext";
 
 export default function CustomerDashboard() {
+  const { user } = useAuth();
   const stats = [
     {
       label: "Active Policies",
@@ -93,7 +95,7 @@ export default function CustomerDashboard() {
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
             <h2 className="font-poppins text-xl font-semibold sm:text-2xl">
-              Welcome back, Tarif!
+              Welcome back{user?.name ? `, ${user.name}` : ""}!
             </h2>
             <p className="mt-1 max-w-xl font-poppins text-sm text-white/80">
               You're fully covered. All your policies are active, and your next

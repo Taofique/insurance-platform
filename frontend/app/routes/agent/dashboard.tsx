@@ -15,6 +15,7 @@ import SectionHeader from "../../../components/dashboard/SectionHeader";
 import StatCard from "../../../components/dashboard/StatCard";
 import StatusBadge from "../../../components/dashboard/StatusBadge";
 import QuickActions from "../../../components/dashboard/QuickActions";
+import { useAuth } from "../../context/AuthContext";
 import {
   attentionTasks,
   performanceData,
@@ -29,6 +30,8 @@ const priorityClasses: Record<string, string> = {
 };
 
 export default function AgentDashboard() {
+  const { user } = useAuth();
+
   const stats = [
     {
       label: "Total Clients",
@@ -136,7 +139,7 @@ export default function AgentDashboard() {
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
             <h2 className="font-poppins text-xl font-semibold sm:text-2xl">
-              Welcome back, John!
+              Welcome back{user?.name ? `, ${user.name}` : ""}!
             </h2>
             <p className="mt-1 font-poppins text-sm text-white/80">
               You have 3 pending tasks to review today.

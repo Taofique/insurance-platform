@@ -8,6 +8,9 @@ import {
   DollarSign,
   LayoutDashboard,
 } from "lucide-react";
+import { useAuth } from "../app/context/AuthContext";
+import { ROLE_LABEL } from "../app/roles";
+import RoleGuard from "../components/auth/RoleGuard";
 import PortalLayout from "./PortalLayout";
 
 const customerNavLinks = [
@@ -89,14 +92,18 @@ export default function CustomerPortalLayout({
 }: {
   children?: React.ReactNode;
 }) {
+  const { user } = useAuth();
+
   return (
-    <PortalLayout
-      portalType="customer"
-      userName="Taofique Islam"
-      userRole="Customer"
-      navLinks={customerNavLinks}
-    >
-      {children}
-    </PortalLayout>
+    <RoleGuard allowedRoles={["client"]}>
+      <PortalLayout
+        portalTitle="Customer Portal"
+        userName={user?.name ?? ""}
+        userRole={user ? ROLE_LABEL[user.role] : "Customer"}
+        navLinks={customerNavLinks}
+      >
+        {children}
+      </PortalLayout>
+    </RoleGuard>
   );
 }

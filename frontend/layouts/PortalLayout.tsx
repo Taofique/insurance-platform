@@ -11,7 +11,7 @@ export interface PortalLink {
 }
 
 export interface PortalLayoutProps {
-  portalType: "customer" | "agent";
+  portalTitle: string;
   userName: string;
   userRole: string;
   userImage?: string;
@@ -20,7 +20,7 @@ export interface PortalLayoutProps {
 }
 
 export default function PortalLayout({
-  portalType,
+  portalTitle,
   userName,
   userRole,
   userImage,
@@ -70,7 +70,7 @@ export default function PortalLayout({
               </svg>
             </button>
             <h2 className="font-poppins font-semibold text-[#ac3e25]">
-              {portalType === "customer" ? "Customer Portal" : "Agent Portal"}
+              {portalTitle}
             </h2>
             <div className="w-8" /> {/* Spacer */}
           </div>
@@ -208,7 +208,7 @@ export default function PortalLayout({
           <div className="p-4 h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-poppins font-semibold text-[#ac3e25] text-sm">
-                {portalType === "customer" ? "Customer Portal" : "Agent Portal"}
+                {portalTitle}
               </h2>
               <button
                 onClick={() => setIsMobileSidebarOpen(false)}

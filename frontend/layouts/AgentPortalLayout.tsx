@@ -12,6 +12,9 @@ import {
   FileCheck,
 } from "lucide-react";
 import PortalLayout from "./PortalLayout";
+import { useAuth } from "../app/context/AuthContext";
+import { ROLE_LABEL } from "../app/roles";
+import RoleGuard from "../components/auth/RoleGuard";
 
 const agentNavLinks = [
   {
@@ -143,14 +146,18 @@ export default function AgentPortalLayout({
 }: {
   children?: React.ReactNode;
 }) {
+  const { user } = useAuth();
+
   return (
-    <PortalLayout
-      portalType="agent"
-      userName="John Doe"
-      userRole="Agent"
-      navLinks={agentNavLinks}
-    >
-      {children}
-    </PortalLayout>
+    <RoleGuard allowedRoles={["agent"]}>
+      <PortalLayout
+        portalTitle="Agent Portal"
+        userName={user?.name ?? ""}
+        userRole={user ? ROLE_LABEL[user.role] : "Agent"}
+        navLinks={agentNavLinks}
+      >
+        {children}
+      </PortalLayout>
+    </RoleGuard>
   );
 }

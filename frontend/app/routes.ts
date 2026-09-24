@@ -25,4 +25,12 @@ export default [
   layout("../layouts/AgentPortalLayout.tsx", [
     route("agent/dashboard", "./routes/agent/dashboard.tsx"),
   ]),
+
+  layout("../layouts/AdminPortalLayout.tsx", [
+    route("admin/dashboard", "./routes/admin/dashboard.tsx"),
+  ]),
+
+  layout("../layouts/ClaimsOfficerPortalLayout.tsx", [
+    route("claims-officer/dashboard", "./routes/claims-officer/dashboard.tsx"),
+  ]),
 ] satisfies RouteConfig;
